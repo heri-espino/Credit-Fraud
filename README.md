@@ -78,3 +78,21 @@ We added an experimental report at [`experiments/experiment012/README.md`](exper
 In the genuine **100,000-row / five-fold / 350-tree pilot**, original XGBoost achieved **ROC AUC 0.942572** and average precision **0.471417**; XGBoost plus DBSCAN features scored **0.942856** and **0.470733** respectively. The +0.000284 ROC AUC difference has a 600-replicate paired-bootstrap interval **[−0.000632, +0.001067]**, so no robust improvement is established. K-means alone and combined with DBSCAN reduced ROC AUC; a separate 30k pilot did not reproduce the DBSCAN gain. **Do not incorporate the clustering features into the final model yet.**
 
 The full experiment notebooks, Python scripts and privately generated dashboard/aggregate figures are available in the owner's experiment012 patch ZIP. Because this repository is public and Kaggle requires publicly shared competition code also to be shared on its competition-associated Kaggle forum/notebook, only the methodological summary is committed here pending that additional publication. The raw data and all row-level OOF files remain local.
+
+
+## experiment013 — Full-dataset clustering ablation completed
+
+The experiment012 hypothesis has now been evaluated on **all 699,960 labeled rows** with **five stratified folds and 20 identical-configuration XGBoost fits** (four feature sets × five folds). The fold-fit cluster geometry uses smaller training-only references (K-means/PCA: 15k; DBSCAN: 2.3k rows), whereas **every XGBoost uses its full outer training fold**.
+
+| Full 699,960-row OOF feature set | ROC AUC | Average precision |
+|---|---:|---:|
+| Original features | 0.945702 | **0.500910** |
+| + DBSCAN | **0.945705** | 0.500646 |
+| + K-means | 0.945436 | 0.498565 |
+| + both | 0.945459 | 0.498668 |
+
+**Paired stratified bootstrap, B=1,000:** ΔAUC DBSCAN versus baseline **+0.00000266**, percentile CI 95% **[−0.000139, +0.000158]**; K-means **−0.000266**, CI **[−0.000485, −0.000047]**; both **−0.000243**, CI **[−0.000483, −0.000025]**. DBSCAN is essentially tied, and the original feature set is preferable on average precision, log loss and Brier score. **Do not alter the final modeling notebook to add clustering features.** The complete aggregate results, fold/cluster diagnostics, environment hashes and reproduction instructions are in [`experiments/experiment013/`](experiments/experiment013/).
+
+The full run completed in 203.6 seconds on a separate available Linux CPU environment, **not** `PCAG103A-15`. A successful preflight reached the Windows runner but found neither the Kaggle ZIP in known checkout locations nor the required ML libraries in its default Python. The runner diagnostic is manually triggered at `.github/workflows/experiment012-preflight.yml`; future runner jobs require an explicit local data path and the named Conda environment.
+
+The execution scripts, figures, notebooks and logs are preserved in the private downloadable `Credit-Fraud_experiment013_full_699960_results.zip`; record-level training labels/OOF predictions are preserved **only** in `Credit-Fraud_experiment013_private_oof.zip`. These must not be published as ordinary Git objects. The source remains private pending the Kaggle contest's public-code-sharing requirement.
