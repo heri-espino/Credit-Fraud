@@ -1,0 +1,7 @@
+nombre,familia,segundos_booster_por_fold,roc_auc,origen
+XGBoost individual,XGBoost,5.565946,0.9457023626,experiment013
+Logística + XGBoost,Logística + XGBoost,3.891076,0.9461023509,experiment015
+Clústeres K-means en ambas etapas,Logística + XGBoost,6.254114,0.9459698723,experiment015
+DBSCAN en ambas etapas,Logística + XGBoost,4.017499,0.9460659574,experiment015
+Ambos en ambas etapas,Logística + XGBoost,6.591580,0.9459869808,experiment015
+Clústeres solo en logística,Logística + XGBoost,3.747208,0.9461606241,experiment015
