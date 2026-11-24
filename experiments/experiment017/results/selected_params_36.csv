@@ -1,0 +1,6 @@
+fold,origen_mejor,auc_interno_30,auc_interno_6_nuevos,auc_interno_elegido,learning_rate,max_depth,min_child_weight
+1,original_30,0.939770,0.930585,0.939770,0.04,3,5
+2,original_30,0.924148,0.913566,0.924148,0.04,3,5
+3,original_30,0.921976,0.911893,0.921976,0.04,3,5
+4,original_30,0.917171,0.911350,0.917171,0.04,3,5
+5,original_30,0.913902,0.904375,0.913902,0.04,3,5
