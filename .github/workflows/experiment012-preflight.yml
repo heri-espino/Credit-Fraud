@@ -1,10 +1,6 @@
 name: Experiment012 runner preflight
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - .github/workflows/experiment012-preflight.yml
   workflow_dispatch:
 
 permissions:
