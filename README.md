@@ -69,3 +69,12 @@ The repository is **public**. The supplied Kaggle competition rules require publ
 The source notebook from the latest clean project package has outputs cleared; older executed notebooks remain available in `experiments/` to preserve provenance. The published presentation exports are **not** claimed to come from the official Marp CLI unless built by that CLI.
 
 See `notes/HANDOFF.md` and `AGENTS.md` before extending the project.
+
+
+## experiment012 — Interactive manifold dashboard and clustering feature ablation
+
+We added an experimental report at [`experiments/experiment012/README.md`](experiments/experiment012/README.md) covering **PCA, t-SNE, Isomap and FastICA** visualizations plus label-free K-means/DBSCAN features for XGBoost. This was deliberately kept separate from the three canonical modeling/ensemble/bootstrap notebooks.
+
+In the genuine **100,000-row / five-fold / 350-tree pilot**, original XGBoost achieved **ROC AUC 0.942572** and average precision **0.471417**; XGBoost plus DBSCAN features scored **0.942856** and **0.470733** respectively. The +0.000284 ROC AUC difference has a 600-replicate paired-bootstrap interval **[−0.000632, +0.001067]**, so no robust improvement is established. K-means alone and combined with DBSCAN reduced ROC AUC; a separate 30k pilot did not reproduce the DBSCAN gain. **Do not incorporate the clustering features into the final model yet.**
+
+The full experiment notebooks, Python scripts and privately generated dashboard/aggregate figures are available in the owner's experiment012 patch ZIP. Because this repository is public and Kaggle requires publicly shared competition code also to be shared on its competition-associated Kaggle forum/notebook, only the methodological summary is committed here pending that additional publication. The raw data and all row-level OOF files remain local.
