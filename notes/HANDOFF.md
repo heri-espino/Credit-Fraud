@@ -62,3 +62,7 @@ ZIP privado Credit-Fraud_notebook_final_es.zip: notebook_final_es.ipynb (50 celd
 Validación: las 25 celdas de código ejecutadas secuencialmente sobre 699,960 observaciones con caché OOF; 19 gráficos y CSV de 299,984 filas generado y mantenido privadamente. Offset XGB AUC .946204755, XGB fijo .946120149; Δ+.000084606, IC95 B=600 [-.000262587,+.000439726]; no diferencia fiable. Los experiments 013–015 quedan preservados y no justifican cambiar finalista.
 
 Solo documentación en repositorio público hasta que el código fuente pueda publicarse también en Kaggle conforme a las reglas. Ver experiments/experiment016/README.md. Próximo experimento experiment017.
+
+### experiment016 — Sincronización solicitada para `git pull` (2026-11-24)
+
+Se añadieron a la raíz `notebook_final_es.ipynb` y `INSTRUCCIONES_ES.md`, junto con el directorio `experiments/experiment016/resultados/` (diccionario, métricas históricas, resumen bootstrap y tabla de cinco estrategias). Todos son textos fuente/estadísticas agregadas; se excluyen datos Kaggle, NPZ con predicciones fila a fila, modelos serializados y figuras regenerables de `outputs/`. El usuario puede hacer `git pull` para recuperar la notebook y ejecutarla en su entorno; para generar un submission se sigue necesitando la caché OOF/test guardada localmente. Dado que el repo es público, queda pendiente compartir este mismo código en el Kaggle Notebook/Discussion de S6E11 conforme a las reglas de publicación.

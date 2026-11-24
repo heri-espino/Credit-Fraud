@@ -1,0 +1,4 @@
+variant,roc_auc,baseline_roc_auc,delta_auc,ci95_low,ci95_high,frac_positive,replicates,seed,scope
+dbscan,0.9457050193585133,0.945702362618998,2.656739515050077e-06,-0.0001392107500892,0.0001584177328737,0.514,1000,20261124,full-data OOF; selection and fold dependence not accounted for
+combined,0.9454594774740358,0.945702362618998,-0.0002428851449622,-0.0004830439763132,-2.49722436380052e-05,0.017,1000,20261124,full-data OOF; selection and fold dependence not accounted for
+kmeans,0.945436021188724,0.945702362618998,-0.000266341430274,-0.0004852698268981,-4.688892298213568e-05,0.007,1000,20261124,full-data OOF; selection and fold dependence not accounted for

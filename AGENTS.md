@@ -44,6 +44,6 @@ Five OOF variants tested on 699,960 rows, five folds with same 42 seed. Two-stag
 
 ## experiment016 — Notebook final en español
 
-La versión privada notebook_final_es.ipynb tiene 50 celdas (25 de código), se validó contra el dataset original y la caché OOF, y generó 19 figuras españolas. Los agregados se conservan en el ZIP; véase experiments/experiment016/README.md. El modo por defecto no reentrena candidatos. El GridSearchCV opcional corresponde a una ejecución *nueva*, no a los resultados históricos.
+La versión final versionada en la raíz (`notebook_final_es.ipynb`) tiene 50 celdas (25 de código), se validó contra el dataset original y la caché OOF, y generó 19 figuras españolas. Los CSV agregados requeridos están versionados en `experiments/experiment016/resultados/`; véase `experiments/experiment016/README.md`. El modo por defecto no reentrena candidatos. El GridSearchCV opcional corresponde a una ejecución *nueva*, no a los resultados históricos.
 
-Bootstrap original del experimento010: B=600, ΔAUC offset vs XGB +.0000846 con intervalo 95% que incluye cero. No se modifica el finalista. Antes de publicar este notebook en GitHub, cumplir el requisito de publicación correspondiente en Kaggle; no subir OOF/test fila por fila. Próximo experimento: experiment017.
+Bootstrap original del experimento010: B=600, ΔAUC offset vs XGB +.0000846 con intervalo 95% que incluye cero. No se modifica el finalista. El notebook se publicó en GitHub a petición del propietario; queda **pendiente** la publicación correspondiente en Kaggle conforme a sus reglas. No subir OOF/test fila por fila. Próximo experimento: experiment017.

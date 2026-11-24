@@ -1,6 +1,6 @@
 # experiment016 — Cuaderno final unificado en español
 
-**Estado:** preparado y verificado el 24 de noviembre de 2026. El entregable principal es el cuaderno **`notebook_final_es.ipynb` (50 celdas)** distribuido al propietario en el ZIP privado **`Credit-Fraud_notebook_final_es.zip`**. Se preservan los cuadernos originales y experimentos 001–015 sin modificaciones.
+**Estado:** preparado y verificado el 24 de noviembre de 2026. El entregable principal es el cuaderno **`notebook_final_es.ipynb` (50 celdas)** disponible ahora en la raíz del repositorio y también entregado al propietario en el ZIP **`Credit-Fraud_notebook_final_es.zip`**. Se preservan los cuadernos originales y experimentos 001–015 sin modificaciones.
 
 ## Secuencia del cuaderno
 
@@ -46,6 +46,13 @@ El modo predeterminado NO reentrena los 19 candidatos ni los ensambles. `CORRER_
 - Fuente Jupyter validada: **50 celdas, 25 de código**, todas compiladas y ejecutadas secuencialmente con los datos originales.
 - **19 figuras nuevas con títulos, ejes y leyendas en español**; se generó un CSV de 299,984 probabilidades válidas, conservado **privadamente**.
 - Los scripts y notebooks históricos, los archivos de Kaggle, los modelos `.joblib` y los vectores OOF/test individuales se conservan en sus destinos anteriores; **no se publican**.
-- Repositorio público: antes de subir el código de este nuevo notebook también debe compartirse en el Notebook/Discussion de la competencia, conforme a las reglas de Kaggle. Por ello el notebook ejecutable permanece en el ZIP privado y este directorio contiene documentación/estadísticas agregadas.
+- Repositorio público: antes de subir el código de este nuevo notebook también debe compartirse en el Notebook/Discussion de la competencia, conforme a las reglas de Kaggle. Ahora `notebook_final_es.ipynb` y las estadísticas agregadas están versionados en GitHub, por solicitud del propietario. Para completar la conformidad con las reglas de Kaggle, debe compartirse también el código en el Notebook/Discussion asociado a S6E11. Los datos originales y las predicciones OOF/test individuales permanecen fuera de Git.
 
 **Siguiente experimento:** experiment017, si se requiere una nueva pregunta científica. La versión final del informe ya está lista para uso académico.
+
+## Sincronización de archivos para `git pull`
+
+- Notebook: [`../../notebook_final_es.ipynb`](../../notebook_final_es.ipynb)
+- Instrucciones: [`../../INSTRUCCIONES_ES.md`](../../INSTRUCCIONES_ES.md)
+- Resultados agregados: [`resultados/`](resultados/)
+- Salida de figuras y submission: se regenera en `outputs/informe_final_es/`; `outputs/` está ignorado.
