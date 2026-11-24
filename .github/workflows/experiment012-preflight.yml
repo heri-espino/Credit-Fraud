@@ -1,0 +1,56 @@
+name: Experiment012 runner preflight
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/experiment012-preflight.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: [self-hosted, Windows, X64]
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify existing Windows environment without accessing private files
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          Write-Host "RUNNER_NAME=$env:RUNNER_NAME"
+          Write-Host "RUNNER_OS=$env:RUNNER_OS"
+          Write-Host "RUNNER_ARCH=$env:RUNNER_ARCH"
+          $roots = @(
+            $env:GITHUB_WORKSPACE,
+            (Join-Path $env:GITHUB_WORKSPACE "..\..\LDS1071-Machine-Learning\LDS1071-Machine-Learning\final_project"),
+            (Join-Path $env:GITHUB_WORKSPACE "..\..\Credit-Fraud\Credit-Fraud"),
+            $env:CREDIT_FRAUD_DATA_PATH,
+            $env:KAGGLE_DATA_PATH
+          ) | Where-Object { $_ } | Select-Object -Unique
+          $found = $false
+          foreach ($root in $roots) {
+            foreach ($suffix in @("playground-series-s6e11.zip", "data\train.csv", "train.csv")) {
+              if (Test-Path -LiteralPath (Join-Path $root $suffix)) {
+                Write-Host "Dataset found in known project location (the path is intentionally not printed)."
+                $found = $true
+              }
+            }
+          }
+          Write-Host "DATASET_FOUND=$found"
+          Write-Host "Python command available: $([bool](Get-Command python -ErrorAction SilentlyContinue))"
+          Write-Host "Conda command available: $([bool](Get-Command conda -ErrorAction SilentlyContinue))"
+          Write-Host "NVIDIA-SMI available: $([bool](Get-Command nvidia-smi -ErrorAction SilentlyContinue))"
+          if (Get-Command python -ErrorAction SilentlyContinue) {
+            @'
+          import sys, importlib.util
+          print("Python:", sys.version.split()[0])
+          for module in ["numpy","pandas","scipy","sklearn","xgboost","seaborn"]:
+              print("module",module,"available",importlib.util.find_spec(module) is not None)
+          '@ | python -
+          }
+          if (Get-Command conda -ErrorAction SilentlyContinue) { conda --version }
