@@ -1,0 +1,5 @@
+candidate,config_short,inner_auc_mean,inner_auc_sd,avg_fit_seconds,selected_count
+catboost_nested_grid,"{""depth"": 3}",0.8589491525423728,0.052310024811474495,0.052657699584960936,1
+catboost_nested_grid,"{""depth"": 5}",0.8856610169491524,0.035286938874838136,0.0678483009338379,4
+xgb_nested_grid,"{""max_depth"": 2}",0.795406779661017,0.0838820905406699,0.02534761428833008,1
+xgb_nested_grid,"{""max_depth"": 4}",0.8000169491525424,0.07494123907045896,0.02929832935333252,4

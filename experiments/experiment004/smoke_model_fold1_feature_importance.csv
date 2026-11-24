@@ -1,0 +1,158 @@
+candidate,fold,feature,importance,type
+logit_C1,1,amount_usd,0.024894705020792825,Signed logistic coefficient
+logit_C1,1,hours_since_last_txn,0.36659165904053964,Signed logistic coefficient
+logit_C1,1,txn_count_last_24h,-0.14075477595944744,Signed logistic coefficient
+logit_C1,1,distance_from_home_km,0.1876945656014536,Signed logistic coefficient
+logit_C1,1,card_age_months,-0.3628102645427012,Signed logistic coefficient
+logit_C1,1,customer_age,0.7575871768540619,Signed logistic coefficient
+logit_C1,1,account_balance_usd,-0.4607327866264215,Signed logistic coefficient
+logit_C1,1,cvv_retry_count,0.7472813831489942,Signed logistic coefficient
+logit_C1,1,velocity_score,1.2552908698534466,Signed logistic coefficient
+logit_C1,1,time_of_day_hour,-0.039116469726741834,Signed logistic coefficient
+logit_C1,1,day_of_week,0.027230194975146317,Signed logistic coefficient
+logit_C1,1,merchant_risk_score,0.7544383295218293,Signed logistic coefficient
+logit_C1,1,prior_disputes,0.17838825546918058,Signed logistic coefficient
+logit_C1,1,is_foreign_transaction,0.2065034039485908,Signed logistic coefficient
+logit_C1,1,is_new_merchant,0.5995381719257096,Signed logistic coefficient
+logit_C1,1,used_vpn,0.43195776191913293,Signed logistic coefficient
+logit_C1,1,ip_country_mismatch,0.29424782277098405,Signed logistic coefficient
+logit_C1,1,billing_shipping_mismatch,0.22172401298424027,Signed logistic coefficient
+logit_C1,1,is_ai_generated_scam_attempt,-0.11521323343486108,Signed logistic coefficient
+logit_C1,1,merchant_category_Electronics,0.24624962210751608,Signed logistic coefficient
+logit_C1,1,merchant_category_Fuel,0.10083461030529807,Signed logistic coefficient
+logit_C1,1,merchant_category_Gaming,0.49977174205083763,Signed logistic coefficient
+logit_C1,1,merchant_category_Gift Cards,-0.3525307928051299,Signed logistic coefficient
+logit_C1,1,merchant_category_Groceries,-0.120810383864603,Signed logistic coefficient
+logit_C1,1,merchant_category_Healthcare,0.265437656888631,Signed logistic coefficient
+logit_C1,1,merchant_category_Online Retail,-0.32902987946729917,Signed logistic coefficient
+logit_C1,1,merchant_category_Restaurants,0.1360383440982158,Signed logistic coefficient
+logit_C1,1,merchant_category_Streaming,0.048126502628100684,Signed logistic coefficient
+logit_C1,1,merchant_category_Travel,-0.7474349730015458,Signed logistic coefficient
+logit_C1,1,merchant_category_Utilities,0.13994618033632927,Signed logistic coefficient
+logit_C1,1,card_type_Discover,0.9748109261399217,Signed logistic coefficient
+logit_C1,1,card_type_Mastercard,-0.36903971861177237,Signed logistic coefficient
+logit_C1,1,card_type_RuPay,-0.6038083169864276,Signed logistic coefficient
+logit_C1,1,card_type_Visa,-0.38117265911929166,Signed logistic coefficient
+logit_C1,1,auth_method_Biometric,-0.6979395146108257,Signed logistic coefficient
+logit_C1,1,auth_method_No Authentication,1.8883534147994294,Signed logistic coefficient
+logit_C1,1,auth_method_OTP,0.06821526296748207,Signed logistic coefficient
+logit_C1,1,auth_method_PIN,-0.9708847525611196,Signed logistic coefficient
+logit_C1,1,channel_Contactless,0.2598751184388344,Signed logistic coefficient
+logit_C1,1,channel_In-App,-0.3200291757182806,Signed logistic coefficient
+logit_C1,1,channel_Online,-0.2056817388242731,Signed logistic coefficient
+logit_C1,1,channel_POS,0.32592396332166085,Signed logistic coefficient
+logit_C1,1,device_type_Android Phone,0.41720461918883267,Signed logistic coefficient
+logit_C1,1,device_type_Mac,0.0031513423242131608,Signed logistic coefficient
+logit_C1,1,device_type_POS Terminal,0.6970781221688452,Signed logistic coefficient
+logit_C1,1,device_type_Smart Watch,-0.611220873937255,Signed logistic coefficient
+logit_C1,1,device_type_Tablet,0.47743477452247274,Signed logistic coefficient
+logit_C1,1,device_type_Windows PC,-0.12031971626472439,Signed logistic coefficient
+logit_C1,1,device_type_iPhone,-0.09819732914016763,Signed logistic coefficient
+xgb_depth3_lr08,1,amount_usd,0.018709726631641388,Model-internal importance
+xgb_depth3_lr08,1,hours_since_last_txn,0.02569996379315853,Model-internal importance
+xgb_depth3_lr08,1,txn_count_last_24h,0.037628963589668274,Model-internal importance
+xgb_depth3_lr08,1,distance_from_home_km,0.018501337617635727,Model-internal importance
+xgb_depth3_lr08,1,card_age_months,0.04402816668152809,Model-internal importance
+xgb_depth3_lr08,1,customer_age,0.06644795835018158,Model-internal importance
+xgb_depth3_lr08,1,account_balance_usd,0.03068559058010578,Model-internal importance
+xgb_depth3_lr08,1,cvv_retry_count,0.10893332213163376,Model-internal importance
+xgb_depth3_lr08,1,velocity_score,0.07531049847602844,Model-internal importance
+xgb_depth3_lr08,1,time_of_day_hour,0.02925344556570053,Model-internal importance
+xgb_depth3_lr08,1,day_of_week,0.026707908138632774,Model-internal importance
+xgb_depth3_lr08,1,merchant_risk_score,0.07768409699201584,Model-internal importance
+xgb_depth3_lr08,1,prior_disputes,0.031042039394378662,Model-internal importance
+xgb_depth3_lr08,1,is_foreign_transaction,0.0,Model-internal importance
+xgb_depth3_lr08,1,is_new_merchant,0.0576942153275013,Model-internal importance
+xgb_depth3_lr08,1,used_vpn,0.0,Model-internal importance
+xgb_depth3_lr08,1,ip_country_mismatch,0.0,Model-internal importance
+xgb_depth3_lr08,1,billing_shipping_mismatch,0.0,Model-internal importance
+xgb_depth3_lr08,1,is_ai_generated_scam_attempt,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Crypto Exchange,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Electronics,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Fuel,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Gaming,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Gift Cards,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Groceries,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Healthcare,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Online Retail,0.03858784958720207,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Restaurants,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Streaming,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Travel,0.0,Model-internal importance
+xgb_depth3_lr08,1,merchant_category_Utilities,0.0,Model-internal importance
+xgb_depth3_lr08,1,card_type_Amex,0.0,Model-internal importance
+xgb_depth3_lr08,1,card_type_Discover,0.0,Model-internal importance
+xgb_depth3_lr08,1,card_type_Mastercard,0.0,Model-internal importance
+xgb_depth3_lr08,1,card_type_RuPay,0.0,Model-internal importance
+xgb_depth3_lr08,1,card_type_Visa,0.0,Model-internal importance
+xgb_depth3_lr08,1,auth_method_3D Secure,0.0,Model-internal importance
+xgb_depth3_lr08,1,auth_method_Biometric,0.0,Model-internal importance
+xgb_depth3_lr08,1,auth_method_No Authentication,0.1051543802022934,Model-internal importance
+xgb_depth3_lr08,1,auth_method_OTP,0.025005733594298363,Model-internal importance
+xgb_depth3_lr08,1,auth_method_PIN,0.04949405416846275,Model-internal importance
+xgb_depth3_lr08,1,channel_ATM,0.0,Model-internal importance
+xgb_depth3_lr08,1,channel_Contactless,0.0,Model-internal importance
+xgb_depth3_lr08,1,channel_In-App,0.0,Model-internal importance
+xgb_depth3_lr08,1,channel_Online,0.06105147674679756,Model-internal importance
+xgb_depth3_lr08,1,channel_POS,0.01700388267636299,Model-internal importance
+xgb_depth3_lr08,1,device_type_ATM Machine,0.0,Model-internal importance
+xgb_depth3_lr08,1,device_type_Android Phone,0.0219305120408535,Model-internal importance
+xgb_depth3_lr08,1,device_type_Mac,0.0,Model-internal importance
+xgb_depth3_lr08,1,device_type_POS Terminal,0.03344494476914406,Model-internal importance
+xgb_depth3_lr08,1,device_type_Smart Watch,0.0,Model-internal importance
+xgb_depth3_lr08,1,device_type_Tablet,0.0,Model-internal importance
+xgb_depth3_lr08,1,device_type_Windows PC,0.0,Model-internal importance
+xgb_depth3_lr08,1,device_type_iPhone,0.0,Model-internal importance
+rf_depth12_leaf10,1,amount_usd,0.028295203300964973,Model-internal importance
+rf_depth12_leaf10,1,hours_since_last_txn,0.04335723493137277,Model-internal importance
+rf_depth12_leaf10,1,txn_count_last_24h,0.040581594630308596,Model-internal importance
+rf_depth12_leaf10,1,distance_from_home_km,0.03799792332315208,Model-internal importance
+rf_depth12_leaf10,1,card_age_months,0.02511974975445454,Model-internal importance
+rf_depth12_leaf10,1,customer_age,0.09420942320742655,Model-internal importance
+rf_depth12_leaf10,1,account_balance_usd,0.041964582134138735,Model-internal importance
+rf_depth12_leaf10,1,cvv_retry_count,0.0880146284148169,Model-internal importance
+rf_depth12_leaf10,1,velocity_score,0.12371873328193929,Model-internal importance
+rf_depth12_leaf10,1,time_of_day_hour,0.03688030256457118,Model-internal importance
+rf_depth12_leaf10,1,day_of_week,0.021508788132171705,Model-internal importance
+rf_depth12_leaf10,1,merchant_risk_score,0.11793339259093878,Model-internal importance
+rf_depth12_leaf10,1,prior_disputes,0.009551813946649886,Model-internal importance
+rf_depth12_leaf10,1,is_foreign_transaction,0.009412795237752795,Model-internal importance
+rf_depth12_leaf10,1,is_new_merchant,0.025445639757685712,Model-internal importance
+rf_depth12_leaf10,1,used_vpn,0.029679557897963477,Model-internal importance
+rf_depth12_leaf10,1,ip_country_mismatch,0.027215315765456664,Model-internal importance
+rf_depth12_leaf10,1,billing_shipping_mismatch,0.0009448002546418431,Model-internal importance
+rf_depth12_leaf10,1,is_ai_generated_scam_attempt,0.0,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Crypto Exchange,0.0,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Electronics,0.0015119489722618137,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Fuel,0.0018955858164440512,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Gaming,0.003059771339328334,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Gift Cards,0.0038109345718700715,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Groceries,0.0032476446018983923,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Healthcare,0.001303663254664831,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Online Retail,0.010521687194976197,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Restaurants,0.005150110830995417,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Streaming,0.002578761279618314,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Travel,0.00023231909877768846,Model-internal importance
+rf_depth12_leaf10,1,merchant_category_Utilities,0.00046355828763730453,Model-internal importance
+rf_depth12_leaf10,1,card_type_Amex,0.0014838078117617075,Model-internal importance
+rf_depth12_leaf10,1,card_type_Discover,0.0038772207086881024,Model-internal importance
+rf_depth12_leaf10,1,card_type_Mastercard,0.008990133401339548,Model-internal importance
+rf_depth12_leaf10,1,card_type_RuPay,2.1344854848372984e-17,Model-internal importance
+rf_depth12_leaf10,1,card_type_Visa,0.00805754373772822,Model-internal importance
+rf_depth12_leaf10,1,auth_method_3D Secure,0.004334522499273773,Model-internal importance
+rf_depth12_leaf10,1,auth_method_Biometric,0.005560240264421621,Model-internal importance
+rf_depth12_leaf10,1,auth_method_No Authentication,0.0767872513026536,Model-internal importance
+rf_depth12_leaf10,1,auth_method_OTP,0.0029753162255967535,Model-internal importance
+rf_depth12_leaf10,1,auth_method_PIN,0.010567601447579249,Model-internal importance
+rf_depth12_leaf10,1,channel_ATM,0.0003424381545185294,Model-internal importance
+rf_depth12_leaf10,1,channel_Contactless,0.0020834209324653618,Model-internal importance
+rf_depth12_leaf10,1,channel_In-App,0.0034139077434124786,Model-internal importance
+rf_depth12_leaf10,1,channel_Online,0.00766586829317915,Model-internal importance
+rf_depth12_leaf10,1,channel_POS,0.004522207828471116,Model-internal importance
+rf_depth12_leaf10,1,device_type_ATM Machine,0.0,Model-internal importance
+rf_depth12_leaf10,1,device_type_Android Phone,0.005170297222354316,Model-internal importance
+rf_depth12_leaf10,1,device_type_Mac,0.002140154301420276,Model-internal importance
+rf_depth12_leaf10,1,device_type_POS Terminal,0.005953595253895055,Model-internal importance
+rf_depth12_leaf10,1,device_type_Smart Watch,0.0,Model-internal importance
+rf_depth12_leaf10,1,device_type_Tablet,0.0006545190895654445,Model-internal importance
+rf_depth12_leaf10,1,device_type_Windows PC,0.0017641552631654446,Model-internal importance
+rf_depth12_leaf10,1,device_type_iPhone,0.008048334143631338,Model-internal importance

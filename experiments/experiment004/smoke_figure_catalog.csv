@@ -1,0 +1,24 @@
+figure,file_kib,source_section
+12_candidate_scores_and_folds.png,111.8,OOF model / ensemble / submission diagnostics
+13_oof_prediction_correlations.png,134.1,OOF model / ensemble / submission diagnostics
+14_ensemble_comparisons.png,79.3,OOF model / ensemble / submission diagnostics
+15_oof_roc_pr_curves.png,168.6,OOF model / ensemble / submission diagnostics
+18_oof_logistic_assumption_checks.png,199.7,OOF model / ensemble / submission diagnostics
+19_logistic_offset_boosting_diagnostics.png,270.1,OOF model / ensemble / submission diagnostics
+26_four_metric_model_scorecard.png,147.0,OOF model / ensemble / submission diagnostics
+27_performance_vs_training_time.png,136.9,OOF model / ensemble / submission diagnostics
+28_oof_score_distributions.png,202.5,OOF model / ensemble / submission diagnostics
+29_cumulative_gains_and_lift.png,261.1,OOF model / ensemble / submission diagnostics
+30_precision_recall_at_review_budget.png,223.1,OOF model / ensemble / submission diagnostics
+31_confusion_matrices_by_policy.png,65.5,OOF model / ensemble / submission diagnostics
+32_model_reliability_comparison.png,148.1,OOF model / ensemble / submission diagnostics
+33_calibration_with_wilson_intervals.png,92.3,OOF model / ensemble / submission diagnostics
+34_subgroups_channel.png,71.5,OOF model / ensemble / submission diagnostics
+34_subgroups_merchant_category.png,82.1,OOF model / ensemble / submission diagnostics
+35_top_risk_set_overlap.png,141.9,OOF model / ensemble / submission diagnostics
+36_model_feature_importance.png,249.7,OOF model / ensemble / submission diagnostics
+37_partial_dependence_models.png,207.0,OOF model / ensemble / submission diagnostics
+38_blend_vs_single_predictions.png,182.3,OOF model / ensemble / submission diagnostics
+39_submission_probability_sanity.png,135.3,OOF model / ensemble / submission diagnostics
+40_hyperparameter_effects.png,129.0,OOF model / ensemble / submission diagnostics
+41_fold_auc_heatmap.png,120.0,OOF model / ensemble / submission diagnostics

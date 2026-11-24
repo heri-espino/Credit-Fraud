@@ -1,0 +1,11 @@
+outer_fold,candidate,family,inner_best_roc_auc,inner_best_params,inner_search_seconds,inner_sample_size,model_device
+1,xgb_nested_grid,xgboost,0.7764406779661017,"{""model__max_depth"": 4}",0.19,1200,cpu
+2,xgb_nested_grid,xgboost,0.8800847457627119,"{""model__max_depth"": 2}",0.17,1200,cpu
+3,xgb_nested_grid,xgboost,0.7294915254237287,"{""model__max_depth"": 4}",0.2,1200,cpu
+4,xgb_nested_grid,xgboost,0.8916949152542373,"{""model__max_depth"": 4}",0.19,1200,cpu
+5,xgb_nested_grid,xgboost,0.7359322033898306,"{""model__max_depth"": 4}",0.19,1200,cpu
+1,catboost_nested_grid,catboost,0.8858474576271187,"{""model__depth"": 3}",0.33,1200,CPU
+2,catboost_nested_grid,catboost,0.9304237288135593,"{""model__depth"": 5}",0.34,1200,CPU
+3,catboost_nested_grid,catboost,0.8880508474576272,"{""model__depth"": 5}",0.4,1200,CPU
+4,catboost_nested_grid,catboost,0.9022881355932204,"{""model__depth"": 5}",0.35,1200,CPU
+5,catboost_nested_grid,catboost,0.8355932203389831,"{""model__depth"": 5}",0.35,1200,CPU

@@ -1,0 +1,609 @@
+{
+  "title": "Credit Card Fraud — LDS1071",
+  "date": "2026-11-22",
+  "source_figures_archive": "figures.zip",
+  "source_project_archive": "LDS1071_credit_fraud_conda_gpu_gridsearch_v5.zip",
+  "n_figures": 44,
+  "n_slides": 59,
+  "figures": [
+    {
+      "file": "01_target_and_missingness.png",
+      "title": "Fraud prevalence and completeness",
+      "slide_number": 6,
+      "chapter": "DATA FOUNDATIONS",
+      "read": "Quantify the rare positive class and inspect missing-value counts before modeling.",
+      "interpret": "Accuracy alone is inadequate under strong imbalance; use ranking and precision-recall metrics.",
+      "limitation": "Verify the competition target and input schema; missingness is data quality, not model quality.",
+      "pixels": [
+        2054,
+        695
+      ]
+    },
+    {
+      "file": "02_numeric_distributions.png",
+      "title": "Numerical feature distributions",
+      "slide_number": 7,
+      "chapter": "DATA FOUNDATIONS",
+      "read": "Compare scales, tails, discreteness and potential heavy skew across numerical variables.",
+      "interpret": "Long-tailed variables motivate robust plots, transformations or nonlinear modeling.",
+      "limitation": "Distributional shape does not itself prove fraud discrimination.",
+      "pixels": [
+        2533,
+        1457
+      ]
+    },
+    {
+      "file": "03_class_conditional_densities.png",
+      "title": "Distributions conditioned on fraud status",
+      "slide_number": 8,
+      "chapter": "DATA FOUNDATIONS",
+      "read": "Compare selected numerical densities between legitimate and fraudulent transactions.",
+      "interpret": "Separation indicates candidate signal, while overlap suggests the need for joint models.",
+      "limitation": "Class-normalized densities conceal the underlying prevalence difference.",
+      "pixels": [
+        2214,
+        1458
+      ]
+    },
+    {
+      "file": "04_pearson_spearman_correlations.png",
+      "title": "Pearson versus Spearman correlation",
+      "slide_number": 9,
+      "chapter": "DATA FOUNDATIONS",
+      "read": "Compare linear correlation with rank/monotonic association among features.",
+      "interpret": "Different matrices indicate relationships that may not be captured by linear correlation alone.",
+      "limitation": "Correlation is not causation; feature dependence can destabilize interpretation.",
+      "pixels": [
+        2870,
+        1249
+      ]
+    },
+    {
+      "file": "05_categorical_risks.png",
+      "title": "Fraud prevalence across categories",
+      "slide_number": 10,
+      "chapter": "DATA FOUNDATIONS",
+      "read": "Compare base rates by categorical groups while checking category frequencies.",
+      "interpret": "High-rate categories may be informative, especially when supported by many observations.",
+      "limitation": "Tiny groups can show unstable rates; inspect support and confidence intervals.",
+      "pixels": [
+        2686,
+        1942
+      ]
+    },
+    {
+      "file": "06_flag_prevalence_vs_fraud.png",
+      "title": "Boolean flags: frequency versus risk",
+      "slide_number": 11,
+      "chapter": "DATA FOUNDATIONS",
+      "read": "Contrast how common each Boolean flag is with its conditional fraud rate.",
+      "interpret": "A rare flag can be highly discriminative; prevalence and risk answer different questions.",
+      "limitation": "A high marginal fraud rate need not persist after adjusting for other variables.",
+      "pixels": [
+        2685,
+        982
+      ]
+    },
+    {
+      "file": "07_nonlinear_binned_fraud_rates.png",
+      "title": "Quantile-binned fraud-rate curves",
+      "slide_number": 13,
+      "chapter": "NONLINEARITY & ANOMALIES",
+      "read": "Estimate observed fraud probabilities across ordered feature bins.",
+      "interpret": "Curved or nonmonotone rates motivate splines and boosted trees beyond a linear logit.",
+      "limitation": "Binning and sparse tails introduce uncertainty; curves are descriptive.",
+      "pixels": [
+        2692,
+        1619
+      ]
+    },
+    {
+      "file": "08_time_patterns.png",
+      "title": "Transaction timing and fraud",
+      "slide_number": 14,
+      "chapter": "NONLINEARITY & ANOMALIES",
+      "read": "Compare fraud rates by hour and day, with uncertainty information where available.",
+      "interpret": "Temporal changes can improve features or motivate periodic transformations.",
+      "limitation": "These are aggregated clock patterns, not temporal leakage tests.",
+      "pixels": [
+        2373,
+        819
+      ]
+    },
+    {
+      "file": "09_bivariate_interaction_heatmaps.png",
+      "title": "Joint numerical risk surfaces",
+      "slide_number": 15,
+      "chapter": "NONLINEARITY & ANOMALIES",
+      "read": "Study the joint variation in fraud rates for pairs of numeric predictors.",
+      "interpret": "A strong high-high cell can signal interactions that additive linear models miss.",
+      "limitation": "Cells with low support can exaggerate apparent contrasts.",
+      "pixels": [
+        2501,
+        1933
+      ]
+    },
+    {
+      "file": "10_univariate_outliers.png",
+      "title": "Univariate outlier fences",
+      "slide_number": 16,
+      "chapter": "NONLINEARITY & ANOMALIES",
+      "read": "Count extreme observations using robust, IQR-based thresholds.",
+      "interpret": "Unusual values deserve inspection but are not automatically recording errors.",
+      "limitation": "Unsupervised fences do not identify fraud labels or causality.",
+      "pixels": [
+        2527,
+        827
+      ]
+    },
+    {
+      "file": "11_isolation_forest_anomaly_diagnostics.png",
+      "title": "Isolation Forest anomaly scores",
+      "slide_number": 17,
+      "chapter": "NONLINEARITY & ANOMALIES",
+      "read": "Compare anomaly scores with empirical fraud prevalence on the diagnostic sample.",
+      "interpret": "Anomaly enrichment can reveal useful risk prioritization signals.",
+      "limitation": "In-sample associations do not establish independent fraud-detection performance.",
+      "pixels": [
+        2374,
+        827
+      ]
+    },
+    {
+      "file": "12_candidate_scores_and_folds.png",
+      "title": "Candidate ROC AUC and fold variation",
+      "slide_number": 19,
+      "chapter": "MODEL DEVELOPMENT",
+      "read": "Rank modeling specifications by pooled out-of-fold ROC AUC and inspect fold variability.",
+      "interpret": "Read pooled score together with the spread across five validation folds.",
+      "limitation": "Selection and reported performance on the same OOF predictions can be optimistic.",
+      "pixels": [
+        2688,
+        1572
+      ]
+    },
+    {
+      "file": "13_oof_prediction_correlations.png",
+      "title": "Correlation among model predictions",
+      "slide_number": 20,
+      "chapter": "MODEL DEVELOPMENT",
+      "read": "Measure redundancy among candidate probability scores.",
+      "interpret": "Highly correlated models contribute less diversity to naive probability averaging.",
+      "limitation": "High correlation does not imply identical ranking of the top-risk transactions.",
+      "pixels": [
+        2053,
+        1904
+      ]
+    },
+    {
+      "file": "14_ensemble_comparisons.png",
+      "title": "Single models versus probability blends",
+      "slide_number": 21,
+      "chapter": "MODEL DEVELOPMENT",
+      "read": "Compare best single model, top-k blend, family representatives and all-candidate blend.",
+      "interpret": "More members do not guarantee higher ROC AUC or average precision.",
+      "limitation": "Blend membership selected on OOF results requires fresh evaluation for unbiased claims.",
+      "pixels": [
+        2048,
+        737
+      ]
+    },
+    {
+      "file": "15_oof_roc_pr_curves.png",
+      "title": "ROC and precision–recall curves",
+      "slide_number": 22,
+      "chapter": "MODEL DEVELOPMENT",
+      "read": "Inspect discrimination over many thresholds instead of one arbitrary cutoff.",
+      "interpret": "ROC AUC measures ranking; precision–recall is highly sensitive to fraud rarity.",
+      "limitation": "Threshold-free metrics do not choose a deployment threshold.",
+      "pixels": [
+        2054,
+        775
+      ]
+    },
+    {
+      "file": "16_pca_explained_variance.png",
+      "title": "How many principal components explain 90%?",
+      "slide_number": 23,
+      "chapter": "MODEL DEVELOPMENT",
+      "read": "Use singular values/eigenvalues to inspect retained feature variance.",
+      "interpret": "High explained input variance does not necessarily preserve rare-class discrimination.",
+      "limitation": "Fit PCA only inside CV training folds to avoid leakage.",
+      "pixels": [
+        1254,
+        615
+      ]
+    },
+    {
+      "file": "17_assumptions_vif_and_feature_shift.png",
+      "title": "Logistic assumptions and feature shift",
+      "slide_number": 24,
+      "chapter": "MODEL DEVELOPMENT",
+      "read": "Inspect multicollinearity diagnostics and exploratory feature-shift measures.",
+      "interpret": "Reference-category encoding limits exact dummy redundancy; regularization improves stability.",
+      "limitation": "A low VIF does not verify independence or correct logit specification.",
+      "pixels": [
+        2526,
+        855
+      ]
+    },
+    {
+      "file": "18_oof_logistic_assumption_checks.png",
+      "title": "OOF logistic diagnostics",
+      "slide_number": 25,
+      "chapter": "MODEL DEVELOPMENT",
+      "read": "Compare logistic residual behavior, calibration and convergence information.",
+      "interpret": "A nonlinear residual pattern motivates a more flexible conditional probability model.",
+      "limitation": "Descriptive out-of-fold checks do not verify all statistical assumptions.",
+      "pixels": [
+        2374,
+        855
+      ]
+    },
+    {
+      "file": "19_logistic_offset_boosting_diagnostics.png",
+      "title": "Gradient boosting as a logit correction",
+      "slide_number": 26,
+      "chapter": "MODEL DEVELOPMENT",
+      "read": "Compare baseline logistic results with XGBoost that adds nonlinear log-odds corrections.",
+      "interpret": "The boosted stage models corrections rather than replacing the linear baseline.",
+      "limitation": "Only held-out metrics can establish whether the added flexibility helps.",
+      "pixels": [
+        3173,
+        851
+      ]
+    },
+    {
+      "file": "20_univariate_feature_discrimination.png",
+      "title": "Predictive ability of individual features",
+      "slide_number": 28,
+      "chapter": "DEEPER DATA EXPLORATION",
+      "read": "Rank single predictors by univariate discrimination and direction of association.",
+      "interpret": "Strong individual signals help explain candidate selection and model interpretation.",
+      "limitation": "Univariate AUC ignores interactions and redundant information.",
+      "pixels": [
+        1886,
+        1008
+      ]
+    },
+    {
+      "file": "21_class_conditional_ecdfs.png",
+      "title": "Empirical CDFs by outcome",
+      "slide_number": 29,
+      "chapter": "DEEPER DATA EXPLORATION",
+      "read": "Compare cumulative numerical distributions for legitimate and fraud cases.",
+      "interpret": "Widening ECDF gaps highlight thresholds or ranges with class separation.",
+      "limitation": "Do not interpret class-normalized curves as population fraud probabilities.",
+      "pixels": [
+        2534,
+        1619
+      ]
+    },
+    {
+      "file": "22_categorical_flag_interactions.png",
+      "title": "Categorical × Boolean interactions",
+      "slide_number": 30,
+      "chapter": "DEEPER DATA EXPLORATION",
+      "read": "Compare conditional fraud rates and support across joint feature groups.",
+      "interpret": "Interactions can expose differences hidden in one-feature plots.",
+      "limitation": "Sparse combinations should be interpreted with support counts in view.",
+      "pixels": [
+        2360,
+        1465
+      ]
+    },
+    {
+      "file": "23_weekly_hourly_fraud_surface.png",
+      "title": "Hour-of-week risk heatmaps",
+      "slide_number": 31,
+      "chapter": "DEEPER DATA EXPLORATION",
+      "read": "Visualize fraud rate and observation counts jointly across time coordinates.",
+      "interpret": "Rate patterns are more credible where sample support is substantial.",
+      "limitation": "No causal or temporal stability guarantee follows from one observed period.",
+      "pixels": [
+        2443,
+        1415
+      ]
+    },
+    {
+      "file": "24_pairwise_class_geometry.png",
+      "title": "Fraud geometry in two dimensions",
+      "slide_number": 32,
+      "chapter": "DEEPER DATA EXPLORATION",
+      "read": "Inspect selected feature pairs for overlap, clusters and unusual regions.",
+      "interpret": "Nonlinear class boundaries may explain why trees compete with additive models.",
+      "limitation": "Plotting subsamples can distort apparent density and class composition.",
+      "pixels": [
+        1640,
+        1570
+      ]
+    },
+    {
+      "file": "25_train_test_ecdf_shift.png",
+      "title": "Train–test distribution comparisons",
+      "slide_number": 33,
+      "chapter": "DEEPER DATA EXPLORATION",
+      "read": "Compare unlabeled feature distributions between training and test splits.",
+      "interpret": "A visible shift warns that held-out CV may not exactly match test conditions.",
+      "limitation": "Without test labels, score deterioration cannot be quantified directly.",
+      "pixels": [
+        2694,
+        1458
+      ]
+    },
+    {
+      "file": "26_four_metric_model_scorecard.png",
+      "title": "A four-metric model scorecard",
+      "slide_number": 35,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Compare ROC AUC, average precision, log loss and Brier loss.",
+      "interpret": "Ranking quality and probability quality need not order models identically.",
+      "limitation": "Choose a primary metric before interpreting many scores.",
+      "pixels": [
+        2688,
+        1942
+      ]
+    },
+    {
+      "file": "27_performance_vs_training_time.png",
+      "title": "Predictive quality versus compute cost",
+      "slide_number": 36,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Plot candidate performance against wall-clock training expense.",
+      "interpret": "Small gains may not justify large computation on a teaching project.",
+      "limitation": "Times depend on hardware, device, threading and cache state.",
+      "pixels": [
+        1906,
+        935
+      ]
+    },
+    {
+      "file": "28_oof_score_distributions.png",
+      "title": "Predicted-risk distributions by class",
+      "slide_number": 37,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Compare predicted fraud probabilities for legitimate and fraud cases.",
+      "interpret": "Overlap reveals unavoidable false positives and false negatives at any cutoff.",
+      "limitation": "These are out-of-fold scores, not deployment calibration guarantees.",
+      "pixels": [
+        2067,
+        2104
+      ]
+    },
+    {
+      "file": "29_cumulative_gains_and_lift.png",
+      "title": "Cumulative gains and lift",
+      "slide_number": 38,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Measure how many fraud cases are captured within the highest-ranked transactions.",
+      "interpret": "Lift compares model-guided review against random screening at the same budget.",
+      "limitation": "Operational usefulness depends on review costs and achievable capacity.",
+      "pixels": [
+        2694,
+        935
+      ]
+    },
+    {
+      "file": "30_precision_recall_at_review_budget.png",
+      "title": "Precision and recall at limited review budget",
+      "slide_number": 39,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Examine quality as the fraction of investigated transactions increases.",
+      "interpret": "Fraud screening is a ranking-and-capacity problem, not only 0.5 classification.",
+      "limitation": "Selecting capacity using the same OOF labels can induce optimism.",
+      "pixels": [
+        2534,
+        935
+      ]
+    },
+    {
+      "file": "31_confusion_matrices_by_policy.png",
+      "title": "Confusion matrices under two decision rules",
+      "slide_number": 40,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Contrast fixed 0.5 probability threshold with an intervention budget (top 1%).",
+      "interpret": "Threshold selection materially changes precision, recall and false alarms.",
+      "limitation": "Never transfer a threshold across populations without validation.",
+      "pixels": [
+        2054,
+        1619
+      ]
+    },
+    {
+      "file": "32_model_reliability_comparison.png",
+      "title": "Reliability diagrams across models",
+      "slide_number": 41,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Compare observed fraud frequency against predicted risk by score bin.",
+      "interpret": "A model may rank well but still misstate absolute risk.",
+      "limitation": "Rare-event bins require caution, especially near extreme predicted risks.",
+      "pixels": [
+        1574,
+        1255
+      ]
+    },
+    {
+      "file": "33_calibration_with_wilson_intervals.png",
+      "title": "Calibration uncertainty intervals",
+      "slide_number": 42,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Plot uncertainty around observed bin-level fraud rates.",
+      "interpret": "Wide intervals reveal where limited positive counts weaken conclusions.",
+      "limitation": "Intervals summarize within-bin sampling variation, not all sources of model uncertainty.",
+      "pixels": [
+        1574,
+        775
+      ]
+    },
+    {
+      "file": "34_subgroups_channel.png",
+      "title": "Model quality across channels",
+      "slide_number": 43,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Compare discrimination by transaction channel for selected candidates.",
+      "interpret": "Subgroup metrics can reveal heterogeneous predictive behavior.",
+      "limitation": "Subgroup sample sizes and fraud counts determine precision.",
+      "pixels": [
+        2529,
+        698
+      ]
+    },
+    {
+      "file": "34_subgroups_merchant_category.png",
+      "title": "Model quality across merchant categories",
+      "slide_number": 44,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Examine predictive quality across major merchant groups.",
+      "interpret": "A strong global score can conceal weaker performance in some subgroups.",
+      "limitation": "Small subgroup differences may be sampling noise; avoid overinterpretation.",
+      "pixels": [
+        2529,
+        1218
+      ]
+    },
+    {
+      "file": "35_top_risk_set_overlap.png",
+      "title": "Agreement among the top 1% riskiest cases",
+      "slide_number": 45,
+      "chapter": "PREDICTIVE PERFORMANCE",
+      "read": "Use Jaccard overlap to compare models on transactions that actually trigger review.",
+      "interpret": "Highly correlated overall predictions may still disagree at the operational margin.",
+      "limitation": "The most useful diversity depends on labeling costs and error consequences.",
+      "pixels": [
+        1173,
+        1047
+      ]
+    },
+    {
+      "file": "36_model_feature_importance.png",
+      "title": "Logistic coefficients and tree importances",
+      "slide_number": 47,
+      "chapter": "INTERPRETATION & TUNING",
+      "read": "Contrast coefficient-based linear interpretation with tree feature importance.",
+      "interpret": "Importance notions are model-specific and not on a common causal scale.",
+      "limitation": "Correlated features and encoding influence apparent importance.",
+      "pixels": [
+        3821,
+        1134
+      ]
+    },
+    {
+      "file": "37_partial_dependence_models.png",
+      "title": "Partial dependence: learned nonlinear response",
+      "slide_number": 48,
+      "chapter": "INTERPRETATION & TUNING",
+      "read": "Compare average predicted response while varying selected features.",
+      "interpret": "Different shapes help explain disagreements between linear, spline and tree models.",
+      "limitation": "Marginal interventions can evaluate unrealistic correlated-feature combinations.",
+      "pixels": [
+        2374,
+        892
+      ]
+    },
+    {
+      "file": "38_blend_vs_single_predictions.png",
+      "title": "How blending changes individual scores",
+      "slide_number": 49,
+      "chapter": "INTERPRETATION & TUNING",
+      "read": "Compare selected ensemble predictions against the leading single model.",
+      "interpret": "Blending can alter risk ordering even when overall metrics barely change.",
+      "limitation": "A change in predicted probability is not evidence of better calibration.",
+      "pixels": [
+        2534,
+        973
+      ]
+    },
+    {
+      "file": "39_submission_probability_sanity.png",
+      "title": "Unlabeled Kaggle submission diagnostics",
+      "slide_number": 50,
+      "chapter": "INTERPRETATION & TUNING",
+      "read": "Inspect distribution, extremes and rank behavior of final test probabilities.",
+      "interpret": "Sanity checks can catch invalid ranges or suspicious collapse of risk scores.",
+      "limitation": "Unlabeled test plots cannot estimate true predictive accuracy.",
+      "pixels": [
+        2374,
+        811
+      ]
+    },
+    {
+      "file": "40_hyperparameter_effects.png",
+      "title": "Effects of model hyperparameters",
+      "slide_number": 51,
+      "chapter": "INTERPRETATION & TUNING",
+      "read": "Compare model families, regularization and capacity settings.",
+      "interpret": "Tree depth, leaf size and learning rate trade expressivity against variance.",
+      "limitation": "These are tested configurations, not a continuous optimization landscape.",
+      "pixels": [
+        3060,
+        1942
+      ]
+    },
+    {
+      "file": "41_fold_auc_heatmap.png",
+      "title": "Fold-by-fold ROC AUC stability",
+      "slide_number": 52,
+      "chapter": "INTERPRETATION & TUNING",
+      "read": "Compare candidate scores across common validation folds.",
+      "interpret": "Consistent differences are more persuasive than single pooled-rank changes.",
+      "limitation": "Five folds do not fully quantify sampling uncertainty.",
+      "pixels": [
+        1710,
+        1663
+      ]
+    },
+    {
+      "file": "42_gridsearch_full_parameter_space.png",
+      "title": "Inner grid search: every tested configuration",
+      "slide_number": 53,
+      "chapter": "INTERPRETATION & TUNING",
+      "read": "Visualize scikit-learn GridSearchCV scores across the XGBoost/CatBoost candidate grid.",
+      "interpret": "Grid-search performance selects configurations inside the training data only.",
+      "limitation": "Best inner-CV score is not the unbiased estimate of final test performance.",
+      "pixels": [
+        3004,
+        1309
+      ]
+    },
+    {
+      "file": "43_nested_gridsearch_outer_results.png",
+      "title": "Did tuning help on held-out outer folds?",
+      "slide_number": 54,
+      "chapter": "INTERPRETATION & TUNING",
+      "read": "Compare fixed and tuned families on untouched outer folds, including search cost.",
+      "interpret": "Use outer-fold results, not the best inner score, to judge tuning benefits.",
+      "limitation": "Compute-time comparisons are device-dependent; finite-fold differences remain uncertain.",
+      "pixels": [
+        2374,
+        980
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "number": 1,
+      "name": "DATA FOUNDATIONS"
+    },
+    {
+      "number": 2,
+      "name": "NONLINEARITY & ANOMALIES"
+    },
+    {
+      "number": 3,
+      "name": "MODEL DEVELOPMENT"
+    },
+    {
+      "number": 4,
+      "name": "DEEPER DATA EXPLORATION"
+    },
+    {
+      "number": 5,
+      "name": "PREDICTIVE PERFORMANCE"
+    },
+    {
+      "number": 6,
+      "name": "INTERPRETATION & TUNING"
+    }
+  ],
+  "notes": "Image-only source. Treat generated charts as supplied; do not infer numerical results or execution provenance not encoded in images."
+}

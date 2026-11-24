@@ -1,0 +1,6 @@
+candidate,family,hyperparameters,roc_auc,average_precision
+logit_C1,logistic,C=1.0,0.9301623082148373,0.4213103885169992
+logit_spline_C1,logistic_spline,C=1.0,0.9262839122465476,0.4142875305450488
+offset_xgb_depth2_lr05,logistic_offset_xgb,"depth=2, lr=0.05",0.9298966646553654,0.4158174964990858
+rf_depth12_leaf10,random_forest,"depth=12, leaf=10",0.9194948218480442,0.3394404412148126
+xgb_depth3_lr08,xgboost,"depth=3, lr=0.08",0.9097267286754632,0.2605293502426663

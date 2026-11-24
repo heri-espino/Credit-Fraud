@@ -1,0 +1,11 @@
+# Competition data must never be publicly redistributed.
+data/
+train.csv
+test.csv
+sample_submission.csv
+playground-series-s6e11.zip
+outputs/
+*.joblib
+*.pkl
+__pycache__/
+.ipynb_checkpoints/

@@ -1,0 +1,41 @@
+category_value,flag_value,n,frauds,rate,cat_feature,flag_feature
+ATM,False,29698,431.0,1.4512761802141558,channel,is_foreign_transaction
+ATM,True,522,49.0,9.386973180076629,channel,is_foreign_transaction
+Contactless,False,103872,1430.0,1.376694393099199,channel,is_foreign_transaction
+Contactless,True,1748,211.0,12.070938215102975,channel,is_foreign_transaction
+In-App,False,82173,1177.0,1.4323439572609007,channel,is_foreign_transaction
+In-App,True,1543,190.0,12.313674659753726,channel,is_foreign_transaction
+Online,False,269156,4148.0,1.5411137035771076,channel,is_foreign_transaction
+Online,True,4783,625.0,13.067112690779846,channel,is_foreign_transaction
+POS,False,202963,2982.0,1.4692333085340679,channel,is_foreign_transaction
+POS,True,3502,446.0,12.735579668760709,channel,is_foreign_transaction
+ATM,False,29218,419.0,1.4340475049626942,channel,used_vpn
+ATM,True,1002,61.0,6.087824351297405,channel,used_vpn
+Contactless,False,102115,1414.0,1.384713313421143,channel,used_vpn
+Contactless,True,3505,227.0,6.476462196861626,channel,used_vpn
+In-App,False,80865,1200.0,1.4839547393804489,channel,used_vpn
+In-App,True,2851,167.0,5.857593826727464,channel,used_vpn
+Online,False,264713,4129.0,1.5598025030882503,channel,used_vpn
+Online,True,9226,644.0,6.980273141122914,channel,used_vpn
+POS,False,199384,2977.0,1.4930987441319263,channel,used_vpn
+POS,True,7081,451.0,6.369156898743116,channel,used_vpn
+3D Secure,False,206325,2666.0,1.2921361928995516,auth_method,is_foreign_transaction
+3D Secure,True,3711,432.0,11.6410670978173,auth_method,is_foreign_transaction
+Biometric,False,92215,410.0,0.44461313235373856,auth_method,is_foreign_transaction
+Biometric,True,1451,58.0,3.9972432804962095,auth_method,is_foreign_transaction
+No Authentication,False,65633,3800.0,5.789770389895327,auth_method,is_foreign_transaction
+No Authentication,True,1427,522.0,36.580238262088294,auth_method,is_foreign_transaction
+OTP,False,172249,2132.0,1.2377430347926548,auth_method,is_foreign_transaction
+OTP,True,2929,332.0,11.334926596107886,auth_method,is_foreign_transaction
+PIN,False,151440,1160.0,0.7659799260433174,auth_method,is_foreign_transaction
+PIN,True,2580,177.0,6.8604651162790695,auth_method,is_foreign_transaction
+3D Secure,False,203103,2689.0,1.3239587795355066,auth_method,used_vpn
+3D Secure,True,6933,409.0,5.899322082792442,auth_method,used_vpn
+Biometric,False,90533,391.0,0.43188671534136724,auth_method,used_vpn
+Biometric,True,3133,77.0,2.4577082668368977,auth_method,used_vpn
+No Authentication,False,64535,3750.0,5.810800340900287,auth_method,used_vpn
+No Authentication,True,2525,572.0,22.653465346534652,auth_method,used_vpn
+OTP,False,169330,2170.0,1.281521289789169,auth_method,used_vpn
+OTP,True,5848,294.0,5.027359781121751,auth_method,used_vpn
+PIN,False,148794,1139.0,0.765487855693106,auth_method,used_vpn
+PIN,True,5226,198.0,3.788748564867968,auth_method,used_vpn

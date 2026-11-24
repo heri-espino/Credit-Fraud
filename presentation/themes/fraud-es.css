@@ -1,0 +1,16 @@
+/* @theme fraud-es */
+@import 'default';
+:root { --ink:#203149; --muted:#5F7185; --teal:#1B8C8B; --coral:#C36B77; }
+section { background:#F8FAFC; color:var(--ink); font-family:'Aptos','Inter','Arial',sans-serif; padding:38px 58px; border-top:8px solid var(--teal); }
+h1,h2 { color:var(--ink); font-weight:750; letter-spacing:-.02em; }
+h1 { font-size:2.35em; } h2 { font-size:1.65em; margin:14px 0 10px; }
+.marp-tag { color:var(--teal); text-transform:uppercase; font-size:.55em; font-weight:800; letter-spacing:.14em; }
+.marp-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:20px; }
+.marp-card { background:white; border:1px solid #DBE4EC; border-radius:10px; padding:16px 18px; font-size:.67em; min-height:102px; }
+.marp-card b { color:var(--teal); } .marp-card p { margin:8px 0 0; line-height:1.4; }
+.marp-message { margin-top:16px; padding:12px 16px; font-size:.61em; border-left:4px solid var(--coral); background:#FFF8F7; }
+.fig-hero { height:450px; background:white; display:flex; align-items:center; justify-content:center; border:1px solid #DBE4EC; border-radius:10px; padding:9px; }
+.fig-hero img { max-width:100%; max-height:100%; object-fit:contain; }
+.marp-fig-notes { font-size:.44em; line-height:1.32; margin-top:12px; color:#42566B; }
+.marp-fig-notes b { color:var(--teal); }
+footer { font-size:12px; color:#718498; }

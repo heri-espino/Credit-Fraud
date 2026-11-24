@@ -1,0 +1,35 @@
+[
+  {
+    "name": "logit_C0p1",
+    "family": "logistic",
+    "params": {
+      "C": 0.1
+    }
+  },
+  {
+    "name": "pca90_logit_C0p1",
+    "family": "logistic_pca",
+    "params": {
+      "C": 0.1
+    }
+  },
+  {
+    "name": "rf_depth12_leaf10",
+    "family": "random_forest",
+    "params": {
+      "n_estimators": 45,
+      "max_depth": 12,
+      "min_samples_leaf": 10
+    }
+  },
+  {
+    "name": "xgb_depth3_lr08",
+    "family": "xgboost",
+    "params": {
+      "n_estimators": 70,
+      "max_depth": 3,
+      "learning_rate": 0.08,
+      "min_child_weight": 5
+    }
+  }
+]

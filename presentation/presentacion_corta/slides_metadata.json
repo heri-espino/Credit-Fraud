@@ -1,0 +1,344 @@
+[
+  {
+    "title": "¿Cómo seleccionamos un modelo para detectar fraude?",
+    "lead": "Proyecto final LDS1071 · Kaggle Playground S6E11",
+    "cards": [],
+    "figure": null,
+    "kind": "cover",
+    "tag": "PRESENTACIÓN BREVE · 20 MIN",
+    "message": "Del análisis exploratorio a una decisión validada con cinco folds.",
+    "notes": "Presentar problema, objetivo oficial ROC AUC y la idea central: comparar hipótesis simples y complejas, no elegir complejidad por intuición.",
+    "duration": 0.5,
+    "body": null
+  },
+  {
+    "title": "La pregunta y la ruta experimental",
+    "lead": "Encontrar una regla que ordene las transacciones desde mayor hasta menor riesgo de fraude.",
+    "cards": [
+      [
+        "1 · Datos",
+        "Describir clases, distribuciones, interacciones y anomalías."
+      ],
+      [
+        "2 · Modelos",
+        "Logit; PCA/splines; random forest; XGBoost y CatBoost."
+      ],
+      [
+        "3 · Validación",
+        "5 folds estratificados; mismo protocolo; GridSearchCV interno."
+      ],
+      [
+        "4 · Decisión",
+        "Probar blends, correcciones logísticas y robustez operativa."
+      ]
+    ],
+    "figure": null,
+    "kind": "flow",
+    "tag": "01 · PROBLEMA",
+    "message": "Criterio oficial: ROC AUC. Métricas de apoyo: AP, log loss, Brier y captura.",
+    "notes": "Este diagrama resume lo que se hizo, no una lista de modelos arbitraria. Cada familia contrasta una hipótesis diferente sobre la relación entre X y fraude.",
+    "duration": 0.85,
+    "body": null
+  },
+  {
+    "title": "El problema: fraude poco frecuente",
+    "lead": "699,960 operaciones etiquetadas · 11,689 fraudes · prevalencia cercana a 1.67%.",
+    "cards": [],
+    "figure": "01_target_and_missingness.png",
+    "kind": "figure",
+    "tag": "02 · EDA",
+    "message": "Se requieren validación estratificada y métricas de ranking; accuracy sola no basta.",
+    "notes": "Destacar el denominador: un clasificador que predice siempre “no fraude” tendría alta accuracy y utilidad nula. No se eliminaron las observaciones raras por sistema.",
+    "duration": 0.9,
+    "body": null
+  },
+  {
+    "title": "EDA: señal entre las dos clases",
+    "lead": "Las distribuciones de fraude y no fraude se superponen: ningún predictor basta por sí solo.",
+    "cards": [],
+    "figure": "03_class_conditional_densities.png",
+    "kind": "figure",
+    "tag": "02 · EDA",
+    "message": "Esto motiva modelar simultáneamente características numéricas, categóricas y booleanas.",
+    "notes": "Explicar que se usaron densidades condicionadas para comparar forma, no para inferir prevalencias. Evitar causalidad.",
+    "duration": 0.85,
+    "body": null
+  },
+  {
+    "title": "La relación no siempre es lineal",
+    "lead": "Tasas de fraude por cuantiles: se observan curvas y cambios de pendiente.",
+    "cards": [],
+    "figure": "07_nonlinear_binned_fraud_rates.png",
+    "kind": "figure",
+    "tag": "02 · EDA",
+    "message": "Motivación para splines, árboles y boosting frente a logit lineal en log-odds.",
+    "notes": "Explicar binning y tasas marginales. Ejemplificar el cambio con el importe, velocidad y puntuación de riesgo del comercio. Las curvas no son efectos parciales.",
+    "duration": 1,
+    "body": null
+  },
+  {
+    "title": "Interacciones: el riesgo es contextual",
+    "lead": "Combinaciones de dos características pueden concentrar tasas de fraude elevadas.",
+    "cards": [],
+    "figure": "09_bivariate_interaction_heatmaps.png",
+    "kind": "figure",
+    "tag": "02 · EDA",
+    "message": "Un modelo puramente aditivo puede omitir interacciones relevantes.",
+    "notes": "Explicar cómo se construye el heatmap: cruzar quintiles e indicar número de transacciones por celda. Interacción descriptiva no causal.",
+    "duration": 0.9,
+    "body": null
+  },
+  {
+    "title": "¿Y las observaciones atípicas?",
+    "lead": "Extremos IQR + Isolation Forest para explorar anomalías sin utilizar las etiquetas para detectarlas.",
+    "cards": [],
+    "figure": "11_isolation_forest_anomaly_diagnostics.png",
+    "kind": "figure",
+    "tag": "02 · EDA",
+    "message": "Decisión: conservar outliers; una operación rara no es necesariamente un fraude.",
+    "notes": "Diferenciar detección no supervisada y clasificación supervisada. Evitar presentar la tasa de anómalos como una estimación validada.",
+    "duration": 0.75,
+    "body": null
+  },
+  {
+    "title": "Preprocesamiento sin fuga de información",
+    "lead": "En cada fold, todas las transformaciones se ajustan exclusivamente con los datos de entrenamiento.",
+    "cards": [
+      [
+        "Entrada",
+        "Excluir id; separar predictores y etiqueta binaria."
+      ],
+      [
+        "Codificación",
+        "Imputación y one-hot cuando corresponde; CatBoost usa categorías nativas."
+      ],
+      [
+        "Escalamiento",
+        "StandardScaler para logit; PCA sólo como rama experimental."
+      ],
+      [
+        "Predicciones OOF",
+        "Cada observación se predice sin haber entrenado el modelo con ella."
+      ]
+    ],
+    "figure": null,
+    "kind": "flow",
+    "tag": "03 · METODOLOGÍA",
+    "message": "5-fold StratifiedKFold · seed 42 · métricas y configuraciones guardadas.",
+    "notes": "Explicar por qué PCA, imputación y escalado deben vivir dentro del Pipeline y no ajustarse una vez en todo el dataset.",
+    "duration": 1,
+    "body": null
+  },
+  {
+    "title": "¿Por qué comenzar con regresión logística?",
+    "lead": "Es un benchmark reproducible, rápido e interpretable que modela la probabilidad de un evento binario.",
+    "cards": [
+      [
+        "Modelo",
+        "p(x) = σ(β₀ + βᵀx): relación lineal en los log-odds."
+      ],
+      [
+        "Fortalezas",
+        "Regularización L2; probabilidades; coeficientes interpretables en escala transformada."
+      ],
+      [
+        "Limitación",
+        "No aprende interacciones ni curvas arbitrarias sin ingeniería de variables."
+      ],
+      [
+        "Diagnósticos",
+        "Binario ✓; dependencia, linealidad y calibración requieren auditoría."
+      ]
+    ],
+    "figure": null,
+    "kind": "concept",
+    "tag": "03 · MODELOS",
+    "message": "Logit estándar y logit con splines: prueba directa de no linealidad.",
+    "notes": "Aclarar que no se necesita normalidad de X ni varianza constante. Añadir distinción entre supuestos de estimación e idoneidad predictiva.",
+    "duration": 1,
+    "body": null
+  },
+  {
+    "title": "SVD/PCA: ¿reducción útil o pérdida de señal?",
+    "lead": "Se propuso conservar componentes que explican aproximadamente el 90% de la varianza de X.",
+    "cards": [],
+    "figure": "16_pca_explained_variance.png",
+    "kind": "figure",
+    "tag": "03 · MODELOS",
+    "message": "Retener 90% de varianza no garantiza retener 90% de señal sobre fraude: se compara mediante CV.",
+    "notes": "SVD de matriz estandarizada, X = UΣVᵀ. Contrastar logit con y sin PCA; PCA no debe imponerse a los árboles.",
+    "duration": 0.8,
+    "body": null
+  },
+  {
+    "title": "Cinco familias para hipótesis distintas",
+    "lead": "Todos los modelos compiten con las mismas particiones y el mismo objetivo ROC AUC.",
+    "cards": [
+      [
+        "Logit y splines",
+        "Baselines aditivos; estiman efecto global y curvatura suave."
+      ],
+      [
+        "Random forest",
+        "Bagging de árboles, umbrales e interacciones; baja varianza."
+      ],
+      [
+        "XGBoost",
+        "Boosting secuencial regularizado para capturar errores y patrones complejos."
+      ],
+      [
+        "CatBoost",
+        "Boosting con manejo nativo de variables categóricas y GPU opcional."
+      ]
+    ],
+    "figure": null,
+    "kind": "concept",
+    "tag": "03 · MODELOS",
+    "message": "Más complejidad sólo se justifica con mejora fuera de entrenamiento.",
+    "notes": "Separar bagging interno de random forest de la combinación posterior de modelos heterogéneos.",
+    "duration": 0.85,
+    "body": null
+  },
+  {
+    "title": "Búsqueda de hiperparámetros",
+    "lead": "GridSearchCV de XGBoost/CatBoost: profundidad, learning rate y regularización.",
+    "cards": [],
+    "figure": "42_gridsearch_full_parameter_space.png",
+    "kind": "figure",
+    "tag": "04 · VALIDACIÓN",
+    "message": "La búsqueda ocurre dentro del entrenamiento de cada fold externo; se evalúa en el fold externo.",
+    "notes": "Describir 8 combinaciones × 3 folds internos por familia y hasta 20k filas para tuning por fold externo. Reajuste en el train externo completo.",
+    "duration": 0.95,
+    "body": null
+  },
+  {
+    "title": "¿Cuál modelo rindió mejor?",
+    "lead": "ROC AUC, average precision, log loss y Brier se comparan sobre predicciones OOF.",
+    "cards": [],
+    "figure": "26_four_metric_model_scorecard.png",
+    "kind": "figure",
+    "tag": "04 · RESULTADOS",
+    "message": "No existe un ganador automático por complejidad: evaluar ranking, probabilidad y costo.",
+    "notes": "La imagen permite comparación visual, pero los CSV crudos del full run no se recibieron junto a figuras; no dar décimas inventadas. Selección oficial por ROC AUC.",
+    "duration": 0.85,
+    "body": null
+  },
+  {
+    "title": "Intento 1: “bagging” de modelos",
+    "lead": "Se guardaron TODOS los candidatos y se promediaron probabilidades: top 3, uno por familia y todos.",
+    "cards": [],
+    "figure": "14_ensemble_comparisons.png",
+    "kind": "figure",
+    "tag": "05 · ENSEMBLES",
+    "message": "Nombre exacto: blending; no equivale al bootstrap bagging clásico.",
+    "notes": "Mostrar que el promedio de todos no garantiza superar al mejor individuo. Explicar correlación entre predicciones y por qué diversidad importa.",
+    "duration": 0.85,
+    "body": null
+  },
+  {
+    "title": "Intento 2: potenciar los errores de logit",
+    "lead": "Logit base + XGBoost que corrige los logits usando base_margin.",
+    "cards": [],
+    "figure": "19_logistic_offset_boosting_diagnostics.png",
+    "kind": "figure",
+    "tag": "05 · ENSEMBLES",
+    "message": "p(x)=σ[f_logit(x)+g_XGB(x)]; probar si las correcciones elevan AUC/AP OOF.",
+    "notes": "Esto NO es stacking clásico. No se entrenó una meta-regresión logística con predicciones de varios modelos; para eso harían falta predicciones OOF de nivel 1 y otro proceso de evaluación.",
+    "duration": 1.05,
+    "body": null
+  },
+  {
+    "title": "Bagging, blending, stacking: no son lo mismo",
+    "lead": "La diferencia principal está en cómo se obtienen y combinan las predicciones.",
+    "cards": [
+      [
+        "Bagging",
+        "Mismo algoritmo en muestras bootstrap; agregación de resultados."
+      ],
+      [
+        "Blending realizado",
+        "Promedio de probabilidades de familias y configuraciones diferentes."
+      ],
+      [
+        "Stacking clásico",
+        "Modelo meta que aprende una combinación a partir de predicciones OOF."
+      ],
+      [
+        "Offset boosting realizado",
+        "Árboles que corrigen la salida logit de una regresión logística fija."
+      ]
+    ],
+    "figure": null,
+    "kind": "concept",
+    "tag": "05 · ENSEMBLES",
+    "message": "Reportamos lo implementado, sin atribuir al proyecto un meta-learner no ejecutado.",
+    "notes": "Esta diapositiva es crucial para rigor conceptual. La idea original de bagging evolucionó a blends; la idea de stacking evolucionó a corrección en escala de log-odds.",
+    "duration": 1.05,
+    "body": null
+  },
+  {
+    "title": "Fraude capturado bajo un presupuesto",
+    "lead": "Se ordenan transacciones por score y se mide qué fracción de fraudes cae en el top k%.",
+    "cards": [],
+    "figure": "29_cumulative_gains_and_lift.png",
+    "kind": "figure",
+    "tag": "06 · DECISIÓN",
+    "message": "ROC AUC es el objetivo de Kaggle; captura y precisión describen utilidad operativa.",
+    "notes": "Explicar lift como captura relativa a selección aleatoria. Para decidir umbral de producción faltan costos reales de revisión.",
+    "duration": 0.9,
+    "body": null
+  },
+  {
+    "title": "¿Se pueden interpretar como probabilidades?",
+    "lead": "Calibración: comparar la probabilidad predicha con la frecuencia de fraude observada.",
+    "cards": [],
+    "figure": "32_model_reliability_comparison.png",
+    "kind": "figure",
+    "tag": "06 · DECISIÓN",
+    "message": "Un excelente ROC AUC no garantiza calibración; contrastar Brier y log loss.",
+    "notes": "Diferenciar ordenar de estimar probabilidad real. Clases muy desbalanceadas hacen importantes estas gráficas.",
+    "duration": 0.75,
+    "body": null
+  },
+  {
+    "title": "Decisión final y límite de evidencia",
+    "lead": "La decisión implementada es seleccionar por ROC AUC OOF entre el mejor individuo y blends predefinidos.",
+    "cards": [],
+    "figure": "43_nested_gridsearch_outer_results.png",
+    "kind": "figure",
+    "tag": "06 · DECISIÓN",
+    "message": "No afirmar una superioridad numérica definitiva sin el CSV del run completo ni una validación intacta.",
+    "notes": "La figura compara resultados de tuning externo; no demuestra que GridSearchCV siempre ayude. La selección de blend sobre los mismos OOF genera optimismo. Para reproducir la selección exacta: consultar ensemble_metrics.csv y run_manifest.json del run real.",
+    "duration": 1.1,
+    "body": null
+  },
+  {
+    "title": "Conclusión: aprendimos del proceso, no sólo del ranking",
+    "lead": "Una evaluación justa permite preferir un modelo simple o complejo por evidencia, no por intuición.",
+    "cards": [
+      [
+        "EDA",
+        "Desbalance, no linealidades, interacciones y anomalías sin eliminar datos."
+      ],
+      [
+        "Modelos",
+        "Logit como punto de referencia; PCA, splines, RF, XGBoost y CatBoost contrastados."
+      ],
+      [
+        "Ensembles",
+        "Blend de varios modelos y corrección de log-odds: comparar, no asumir ganancia."
+      ],
+      [
+        "Pendiente",
+        "Confirmar resultados del run definitivo, validar selección y enviar CSV a Kaggle."
+      ]
+    ],
+    "figure": null,
+    "kind": "concept",
+    "tag": "07 · CIERRE",
+    "message": "Regla: maximizar ROC AUC OOF; documentar AP, calibración, estabilidad y costos.",
+    "notes": "Cerrar con tres aprendizajes y reconocer limitación de selección. La prueba no etiquetada de Kaggle no permite verificar AUC offline.",
+    "duration": 0.65,
+    "body": null
+  }
+]

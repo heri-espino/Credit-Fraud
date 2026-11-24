@@ -1,0 +1,2 @@
+roc_auc,average_precision,log_loss,brier,precision_at_0p5,recall_at_0p5,f1_at_0p5,precision_at_top_1pct,recall_at_top_1pct,candidate,family,total_seconds
+0.9290237288135593,0.4282060258363363,0.05176570669029354,0.011955496813606713,0.6923076923076923,0.36,0.47368421052631576,0.6333333333333333,0.38,offset_xgb_depth2_lr05,logistic_offset_xgb,0.33
