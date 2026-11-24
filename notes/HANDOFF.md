@@ -26,3 +26,10 @@ The public GitHub repository previously already held competition modeling source
 3. Run the `paired_bootstrap_comparison.ipynb` only if updated comparisons are required.
 4. Use Actions manual workflow with figure directory to compile latest HTML/PDF. Keep generated files as artifacts or use Git LFS/external storage, not ordinary repeated large Git blobs.
 5. Record any new analyses as `experiment012`.
+
+
+## experiment012 — Dashboard and fold-leakage-safe clustering features (2026-11-24)
+
+Executed PCA/t-SNE/Isomap/FastICA dashboard over a deliberately 15%-fraud-enhanced 2,200-row **display sample**, retaining the real 1.67% base rate in summary metrics; added a separate 7k representative unlabeled clustering diagnostic and feature distributions. Tested K-means centroid distances/soft memberships and DBSCAN kNN/core distances/noise features as new covariates for the previously selected fixed depth-5 XGBoost configuration. All clustering decisions were made within outer training folds. Pilots: 30k, 3 folds, 180 trees (original AUC .938588; all augmentations worse); 100k, 5 folds, 350 trees (original .942572; DBSCAN .942856; K-means .941714; both .941629). DBSCAN average precision .470733 versus baseline .471417. Paired bootstrap B=600 gave ΔAUC DBSCAN +.000284, CI [−.000632,+.001067]. No established improvement; user-facing final notebooks remain unchanged.
+
+Reproducible scripts/notebooks, dashboard HTML and aggregate results are delivered in the owner's private `Credit-Fraud_experiment012_cluster_dashboard.zip`, which excludes Kaggle data and row-level OOF arrays. Two synthetic unit tests and both notebook execution paths passed; HTML build passed structural checks but Chromium screenshot timed out. Record/method are at `experiments/experiment012/README.md`. This public GitHub update contains documentation only until Kaggle's corresponding code-publication requirement is fulfilled. Preserve all previous experiments and runner configuration.
