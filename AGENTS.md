@@ -41,3 +41,9 @@ Completed 699,960 rows, five stratified folds, 20 L2-logistic fits with baseline
 ## experiment015 — Logistic-offset clustering features (completed)
 
 Five OOF variants tested on 699,960 rows, five folds with same 42 seed. Two-stage model uses LR logits as XGB `base_margin` at fit *and inference*. Variant `combined_lr_only` adds cluster features **only** in LR and reuses the original XGBoost feature matrix. The other three add features to both stages. Best observed +.000058273 AUC had paired bootstrap 95% CI [−.000127384,+.000237351], no reliable gain. Original finalist unchanged. Full aggregate/fold methodology in `experiments/experiment015/README.md`, executable scripts and executed review notebook available privately; OOF files excluded from public Git. The full run used Linux CPU, not self-hosted Windows runner. Next sequential experiment ID `experiment016`.
+
+## experiment016 — Notebook final en español
+
+La versión privada notebook_final_es.ipynb tiene 50 celdas (25 de código), se validó contra el dataset original y la caché OOF, y generó 19 figuras españolas. Los agregados se conservan en el ZIP; véase experiments/experiment016/README.md. El modo por defecto no reentrena candidatos. El GridSearchCV opcional corresponde a una ejecución *nueva*, no a los resultados históricos.
+
+Bootstrap original del experimento010: B=600, ΔAUC offset vs XGB +.0000846 con intervalo 95% que incluye cero. No se modifica el finalista. Antes de publicar este notebook en GitHub, cumplir el requisito de publicación correspondiente en Kaggle; no subir OOF/test fila por fila. Próximo experimento: experiment017.
