@@ -23,3 +23,8 @@
 - `.github/workflows/verify-build.yml` is manually dispatched and runs on a self-hosted Windows x64 GitHub Actions runner. It validates/builds, **not trains**. Runner `PCAG103A-15` is a machine name, not automatically a GitHub Actions custom label.
 - The local `outputs/` directory is intentionally Git-ignored; model artifacts on the runner's disk are not automatically accessible inside a fresh `GITHUB_WORKSPACE`.
 - Publication of competition code from this public repository must satisfy Kaggle's associated competition-public-sharing requirements.
+
+
+## experiment012 — Exploratory manifold and clustering ablations
+
+A private experiment patch contains `experiments/experiment012/` with the dashboard (PCA, t-SNE, Isomap, FastICA), K-means silhouette/inertia and DBSCAN cluster-sensitivity diagnostics, and a *fold-fit* XGBoost ablation. Two pilots (30k/3fold/180trees; 100k/5fold/350trees) have been **executed**, with bootstrap B=600 on the larger OOF data. Treat results as exploratory: the +0.000284 DBSCAN AUC gain has CI [−0.000632,+0.001067] and slightly worse AP. No changes were made to the final training notebook. Geometric transformations, K selection, DBSCAN radius selection and cluster fitting must remain strictly inside each supervised outer training fold. Do not treat t-SNE/Isomap coordinates as inductively available predictors or use oversampled visualization prevalence for risk estimation. Source/data publication rule remains in force; consult `experiments/experiment012/README.md`. Next experiment index: `experiment013`.
