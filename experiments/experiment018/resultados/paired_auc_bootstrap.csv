@@ -1,0 +1,4 @@
+variant,delta_auc,ci95_low,ci95_high,frac_positive,n_replicates,seed,conclusion
+kmeans,2.796723609843621e-05,-0.0001496728427582611,0.00021260332679624847,0.616,1000,20261124,conditional OOF bootstrap; not independent nor selection-corrected
+dbscan,1.8229938984926086e-05,-0.0001273426932560634,0.0001599472412053493,0.594,1000,20261124,conditional OOF bootstrap; not independent nor selection-corrected
+combined,1.5872694831609024e-05,-0.00016518686563636863,0.00019914559998013276,0.569,1000,20261124,conditional OOF bootstrap; not independent nor selection-corrected

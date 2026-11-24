@@ -1,0 +1,30 @@
+{
+  "experiment": "experiment018",
+  "samples": 699960,
+  "positives": 11689,
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "inner_train_subsample": 36000,
+  "grid_size": 36,
+  "n_estimators": 240,
+  "device": "cpu",
+  "correction_features": "original only",
+  "cluster_features": "logistic only, fold fit in inner and outer CV",
+  "selection": "four representations and 36 booster combinations, CV on 36k external-training subsample",
+  "config": {
+    "geometry_fit_rows": 15000,
+    "dbscan_rows": 2300,
+    "k_candidates": [
+      3,
+      5,
+      8,
+      12
+    ]
+  },
+  "total_seconds": 995.768541937,
+  "software": {
+    "python": "3.13.5",
+    "xgboost": "3.1.3",
+    "sklearn": "1.8.0"
+  }
+}
