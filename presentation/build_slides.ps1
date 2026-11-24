@@ -71,9 +71,9 @@ foreach ($name in $decks) {
   $source = Join-Path $root "presentation\$name\deck.md"
   $out = Join-Path $root "presentation\dist\$name"
   New-Item -ItemType Directory -Force -Path $out | Out-Null
-  & npx --yes '@marp-team/marp-cli@4.5.1' $source --theme-set $css --allow-local-files --template bespoke -o (Join-Path $out 'slides.html')
+  & npx --yes '@marp-team/marp-cli@4.5.1' $source --theme-set $css --allow-local-files --html --template bespoke -o (Join-Path $out 'slides.html')
   if ($LASTEXITCODE -ne 0) { throw "Marp HTML build failed: $name" }
-  & npx --yes '@marp-team/marp-cli@4.5.1' $source --theme-set $css --allow-local-files --pdf -o (Join-Path $out 'slides.pdf')
+  & npx --yes '@marp-team/marp-cli@4.5.1' $source --theme-set $css --allow-local-files --html --pdf -o (Join-Path $out 'slides.pdf')
   if ($LASTEXITCODE -ne 0) { throw "Marp PDF build failed: $name" }
 }
 Write-Host "Done. See presentation\dist for compiled artifacts."
