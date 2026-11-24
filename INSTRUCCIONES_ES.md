@@ -1,21 +1,18 @@
-# Cómo abrir el cuaderno final
+# Cómo reproducir el cuaderno final
 
-1. Extraiga el ZIP **dentro de la raíz** de `Credit-Fraud` sin borrar `outputs/`, las figuras o los modelos anteriores.
-2. Verifique que `experiments/experiment016/resultados/` y `notebook_final_es.ipynb` estén en las rutas indicadas.
-3. Coloque `playground-series-s6e11.zip` en la raíz o los CSV originales en `data/`.
-4. Active el entorno existente y abra Jupyter:
+En la raíz de Credit-Fraud, conserve `outputs/` y coloque el ZIP original de Kaggle o los tres CSV en `data/`.
 
 ```powershell
+git pull --ff-only origin main
 conda activate lds1071-fraud
-python -m ipykernel install --user --name lds1071-fraud --display-name "Python (LDS1071 Fraud)"
 jupyter lab notebook_final_es.ipynb
 ```
 
-5. Seleccione `Python (LDS1071 Fraud)` y ejecute **Restart Kernel and Run All Cells**.
-6. Las nuevas figuras se guardan bajo `outputs/informe_final_es/figuras/`.
+Seleccione el kernel Python (LDS1071 Fraud) y use Restart Kernel and Run All Cells.
 
-**Configuración inicial:** `CORRER_BUSQUEDA_DE_EJEMPLO=False` y `MOSTRAR_TSNE=False`. Los resultados de modelos y ensambles que ya están entrenados se recuperan, sin volver a realizar los cientos de entrenamientos originales. La t-SNE opcional puede activarse con `MOSTRAR_TSNE=True`.
+## Selección del modo
+- Histórico (predeterminado): `EJECUTAR_PROTOCOLO_COMUN=False` y `CARGAR_PROTOCOLO_COMUN=False`. Recupera resultados previos, no reentrena. Para las curvas y el envío se requiere `outputs/ensemble_extension/five_way_oof_and_test_predictions.npz` o el ZIP `ensemble_extension.zip`. Figuras y envío en `outputs/informe_final_es/`.
+- Nuevo protocolo homogéneo: `EJECUTAR_PROTOCOLO_COMUN=True` y `CARGAR_PROTOCOLO_COMUN=False`. Ejecuta 4 440 ajustes internos de candidatos y 25 externos, más auxiliares. Las métricas nuevas aún no están verificadas. No ejecutar simultáneamente la búsqueda histórica opcional.
+- Reutilizar una corrida homogénea completa: `EJECUTAR_PROTOCOLO_COMUN=False` y `CARGAR_PROTOCOLO_COMUN=True`. Verifica IDs y AUC de la caché nueva. Figuras y envío en `outputs/informe_comun_es/`.
 
-**Para crear `outputs/informe_final_es/envio_final_kaggle.csv`:** mantenga el archivo `outputs/ensemble_extension/five_way_oof_and_test_predictions.npz` que ya generó en su estación Windows, o coloque en la raíz el ZIP `ensemble_extension.zip` con ese archivo. El cuaderno valida los `id`, el orden y las probabilidades antes de exportar.
-
-**Resultados:** modelo nominalmente elegido por ROC AUC OOF = regresión logística corregida con XGBoost. Su diferencia frente al mejor XGBoost individual es pequeña y su intervalo de confianza emparejado incluye cero.
+Los datos individuales y los archivos NPZ privados se mantienen fuera de Git. Consulte [experiment020](experiments/experiment020/README.md). Antes de entregar el notebook con la nueva metodología, ejecutar y verificar las celdas, las tablas y las figuras, y conservar los agregados. No presentar métricas históricas como resultado del protocolo nuevo.
