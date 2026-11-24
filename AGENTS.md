@@ -47,3 +47,9 @@ Five OOF variants tested on 699,960 rows, five folds with same 42 seed. Two-stag
 La versión final versionada en la raíz (`notebook_final_es.ipynb`) tiene 50 celdas (25 de código), se validó contra el dataset original y la caché OOF, y generó 19 figuras españolas. Los CSV agregados requeridos están versionados en `experiments/experiment016/resultados/`; véase `experiments/experiment016/README.md`. El modo por defecto no reentrena candidatos. El GridSearchCV opcional corresponde a una ejecución *nueva*, no a los resultados históricos.
 
 Bootstrap original del experimento010: B=600, ΔAUC offset vs XGB +.0000846 con intervalo 95% que incluye cero. No se modifica el finalista. El notebook se publicó en GitHub a petición del propietario; queda **pendiente** la publicación correspondiente en Kaggle conforme a sus reglas. No subir OOF/test fila por fila. Próximo experimento: experiment017.
+
+## experiment017 — cinco clusters, búsqueda de profundidad 30 y política de alerta
+
+La notebook principal tiene 54 celdas y Seaborn dark. XGBoost se evaluó con 36 configuraciones de búsqueda incluyendo profundidad 30; las seis combinaciones adicionales no ganaron en ningún pliegue. K-means con k=5 añadió seis características y obtuvo diferencia de ROC AUC +0.000044 (IC 95% bootstrap [-0.000107,+0.000194]), no un resultado concluyente.
+
+La política ilustrativa de recall 98% minimiza alertas falsas dadas las restricciones; sin esa restricción minimizar FN es trivial. No modificar el finalista ni umbralizar la predicción que solicita Kaggle. El registro está en `experiments/experiment017/README.md`, y scripts y figuras reproducibles en el ZIP de la conversación; los OOF/test individuales permanecen privados. Cumplir publicación correspondiente en Kaggle para el código difundido en este repositorio público. Próximo número experiment018.
