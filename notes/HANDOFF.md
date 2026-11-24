@@ -66,3 +66,11 @@ Solo documentación en repositorio público hasta que el código fuente pueda pu
 ### experiment016 — Sincronización solicitada para `git pull` (2026-11-24)
 
 Se añadieron a la raíz `notebook_final_es.ipynb` y `INSTRUCCIONES_ES.md`, junto con el directorio `experiments/experiment016/resultados/` (diccionario, métricas históricas, resumen bootstrap y tabla de cinco estrategias). Todos son textos fuente/estadísticas agregadas; se excluyen datos Kaggle, NPZ con predicciones fila a fila, modelos serializados y figuras regenerables de `outputs/`. El usuario puede hacer `git pull` para recuperar la notebook y ejecutarla en su entorno; para generar un submission se sigue necesitando la caché OOF/test guardada localmente. Dado que el repo es público, queda pendiente compartir este mismo código en el Kaggle Notebook/Discussion de S6E11 conforme a las reglas de publicación.
+
+## experiment017 — Modelo con cinco clusters, profundidad 30 y análisis binario (2026-11-24)
+
+Sobre 699,960 transacciones, cinco folds semilla42: XGBoost fijo + cinco clusters K-means AUC .945746719 (AP .501017810) frente a baseline experiment013 AUC .945702363 (AP .500909959). Bootstrap pareado estratificado B1000 ΔAUC +.000044357, IC95 [-.000107,+.000194]. Grilla previa de 30 parámetros y seis nuevos de profundidad30 (total36), tres folds internos y entrenamiento completo por fold externo: ganador profundidad3, lr.04, min_child_weight5 en todos los folds, AUC .944886982. Geometría PCA/K-means entrenada en cada fold externo, con 15k puntos de referencia.
+
+Notebook final 54 celdas, Seaborn dark, zoom ROC AUC y gráfico de ensambles sólo ROC AUC. Umbral de alerta con criterio ilustrativo de 98% recall: mejor XGBoost individual histórico tuvo FN231, FP305362, F1=.069758, exactitud=.563414, AUC=.946120 con selección cruzada del umbral; el offset logístico retuvo la mayor AUC global .946205. No existe umbral de producción justificado sin costos operativos; Kaggle requiere probabilidades.
+
+Notebook local validada end-to-end; el código final sincronizado a GitHub para git pull. Ejecución en Linux CPU, no runner Windows. Resultados agregados públicos en experiments/experiment017 y scripts/figuras en ZIP, predicciones individuales en ZIP privado. Siguiente experimento018.
