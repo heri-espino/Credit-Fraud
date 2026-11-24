@@ -61,3 +61,8 @@ The final Spanish notebook integrates K-means/DBSCAN, PCA and t-SNE into early r
 
 
 **experiment018 nested-representation selector:** after inner-CV model tuning, choose the LR representation separately by maximum inner AUC within each outer training fold. Fold choices baseline,kmeans,baseline,baseline,baseline; joint OOF AUC .9458559178 vs baseline .9458421547, paired bootstrap 1000 delta +.0000137631 CI [−.0000542282,+.0000775875]. Distinguish this proper foldwise selection from choosing the overall best variant post hoc. New public aggregate CSVs in experiment018/resultados; confidential OOF only in a separate private archive.
+
+
+## experiment019 — Narrativa final integrada, sin nuevo entrenamiento
+
+El notebook final versionado tiene **66 celdas/33 ejecutables**. Mantener el orden: 1 EDA, 2 representación y K-means/DBSCAN, 3 familias y grillas, 4 selección base logística y búsqueda de corrector XGBoost, 5 ensambles y tiempo, 6 modelo final e incertidumbre y métricas. El máximo aparente del experimento014 para logística combinada no es una ganancia establecida; referencia parsimoniosa original. En experiment018 la selección de representación se efectuó dentro de cada fold externo (originales 4/5). No crear fuga moviendo transformaciones fuera de los folds. Ejecutar OOF loader antes de generación de envío. Mantener `EJECUTAR_BUSQUEDA_HIBRIDA=False` por defecto. Reutilizar agregados existentes; no publicar OOF/test, datos Kaggle o binarios. Ver `experiments/experiment019/README.md`. Próximo experimento: experiment020.
