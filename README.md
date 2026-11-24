@@ -138,3 +138,12 @@ El cuaderno final en español ahora integra PCA/t-SNE y K-means/DBSCAN **antes**
 
 
 **Ajuste adicional del experimento018:** al seleccionar la representación *dentro* de cada entrenamiento externo mediante AUC interna, se escogieron variables originales en cuatro folds y K-means en uno. El selector anidado obtuvo AUC OOF **0.945856** frente a 0.945842 de la base sin clusters; Δ+0.000014, IC emparejado 95 % **[−0.000054,+0.000078]**. Las tres tablas agregadas y la figura están documentadas en experiment018; no se ha demostrado una ganancia por la construcción de clusters.
+
+
+## experiment019 — Cuaderno con secuencia metodológica integrada
+
+`notebook_final_es.ipynb` fue reorganizado como un informe continuo de **66 celdas (33 de código)**: EDA → PCA/t-SNE y K-means/DBSCAN → comparación de algoritmos y grillas → elección justificada de la primera etapa logística → corrección con XGBoost y validación anidada → cuatro ensambles → incertidumbre → evaluación del finalista (ROC, PR, calibración, F1 y matriz de confusión).
+
+La logística con K-means+DBSCAN obtuvo la mayor AUC aislada, **0.941559**, pero su diferencia con la logística original **0.941357** tiene un IC95 que incluye cero; por parsimonia la original queda como base de referencia. En la búsqueda conjunta anidada del experimento018, la representación original se eligió en cuatro folds y K-means en uno. El finalista histórico sigue siendo la logística corregida mediante XGBoost (AUC OOF **0.946205**, ventaja frente al XGBoost individual no demostrada estadísticamente). **No se reentrenaron modelos nuevos** en esta revisión.
+
+El orden de carga de cachés OOF y envío fue corregido; el notebook fue verificado contra el dataset completo y las predicciones guardadas en una ejecución local equivalente (33 celdas, 31 figuras). Véase [experimento019](experiments/experiment019/README.md). Se recupera con `git pull --ff-only origin main`. La publicación equivalente de código de competición en Kaggle continúa pendiente.
