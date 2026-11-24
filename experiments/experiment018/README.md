@@ -52,3 +52,8 @@ jupyter lab notebook_final_es.ipynb
 ```
 
 El código de la competencia publicado en GitHub requiere publicación equivalente en Kaggle conforme a las reglas. Próximo experimento: `experiment019`.
+
+
+## Selección conjunta anidada de la representación
+
+Una evaluación adicional reconstruyó el **hiperparámetro de representación** con la máxima AUC interna en cada fold externo, sin usar etiquetas de ese fold: originales en los folds 1,3,4,5 y K-means en el 2. El selector produjo ROC AUC **0.945855918**, AP 0.505804281, Δ +0.000013763 sobre la alternativa original. Un bootstrap emparejado estratificado B=1000 dio IC 95 % **[−0.000054228,+0.000077588]**, que incluye cero. Se registran `joint_selected_fold_choices.csv`, `joint_selected_summary.csv` y `joint_selected_bootstrap.csv`. Esto elimina la confusión entre **selección en los folds internos** y **elección del máximo sobre OOF externas**. No se modifica el finalista de entrega.

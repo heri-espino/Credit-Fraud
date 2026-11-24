@@ -1,0 +1,6 @@
+fold,chosen_representation,inner_auc,max_depth,learning_rate,min_child_weight,heldout_rows
+1,baseline,0.9384924023176212,3,0.04,15,139992
+2,kmeans,0.93984468874117,3,0.04,5,139992
+3,baseline,0.932739779390552,3,0.04,5,139992
+4,baseline,0.9361690743832648,3,0.04,15,139992
+5,baseline,0.9337054916959252,3,0.04,5,139992

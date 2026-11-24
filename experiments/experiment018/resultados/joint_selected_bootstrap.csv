@@ -1,0 +1,2 @@
+comparison,delta_auc,ci95_low,ci95_high,frac_positive,n_replicates,seed,scope
+joint_nested_selected vs baseline,1.3763113890008505e-05,-5.4228240471052017e-05,7.758753937775752e-05,0.672,1000,20261124,conditional paired OOF; no selection/multiplicity corrections
