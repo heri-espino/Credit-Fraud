@@ -82,3 +82,10 @@ Completed full 699,960 labeled row, 5 outer folds, 4 LR feature sets (baseline/K
 
 
 **experiment018 foldwise data-hyperparameter selection:** the joint selector based *only* on inner AUC per outer fold picked original features in outer folds 1,3,4,5, K-means in fold 2. Reconstructed OOF AUC .9458559178, AP .5058042807; baseline .9458421547. Paired bootstrap B=1000 gives Δ+.0000137631 CI [−.0000542282,+.0000775875], includes zero. New code `joint_selection.py` and `bootstrap_joint.py` are in the private ZIP, with aggregate output committed publicly. This selection is more rigorous than picking max pooled OOF of four variants, but still not independent of prior exploration.
+
+
+## experiment019 — Reconstrucción de narrativa (2026-11-24)
+
+Reorganizado `notebook_final_es.ipynb` y registrado en `experiments/experiment019/README.md`: 66 celdas, 33 ejecutables, narrativa EDA → clusters y representación → todos los algoritmos y búsqueda → mejor base logística (distinción máximo OOF y parsimonia) → corrección por XGBoost `base_margin` con grilla de 36 → cuatro ensambles → incertidumbre y evaluación ROC/PR/F1. Resultados históricos preservados, sin nuevos ajustes; el selector anidado de representación sigue siendo experiment018 y eligió original 4/5 folds. Se introdujo tabla y figura de selección logística a partir del experimento014, sin afirmar superioridad: AUC 0.941559 combinada vs 0.941357 original, intervalo de la diferencia contiene 0.
+
+Dependencia reparada al mover la carga OOF antes del envío. El equivalente local pasó la ejecución de las 33 celdas sobre 699,960 observaciones con los archivos confidenciales guardados, generando 31 gráficos. Los resultados del finalista son históricos (offset 0.946205, XGB 0.946120, IC95 diferencia incluye cero); no hay mejora demostrada. Las cachés OOF/test nunca se subieron a Git y siguen siendo necesarias para curvas y submission. Código en repositorio público: pendiente publicación equivalente del Notebook/Discussion Kaggle. Próximo número experiment020.
