@@ -1,0 +1,90 @@
+name: Verify project / build slides (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_presentations:
+        description: "Compile the Spanish Marp decks (requires figure assets)"
+        type: boolean
+        default: false
+        required: true
+      figures_directory:
+        description: "Optional absolute path on PCAG103A-15 to existing local outputs/ or outputs/figures/"
+        type: string
+        default: ""
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: credit-fraud-self-hosted-manual
+  cancel-in-progress: false
+
+jobs:
+  inspect_and_build:
+    runs-on: [self-hosted, Windows, X64]
+    timeout-minutes: 45
+    steps:
+      - name: Checkout only trusted default-branch source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Inspect runner, GPU and notebook structure (no model training)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Write-Host "Runner name: $env:RUNNER_NAME"
+          Write-Host "Architecture: $env:RUNNER_ARCH"
+          Write-Host "Workspace: $env:GITHUB_WORKSPACE"
+          if (Get-Command nvidia-smi -ErrorAction SilentlyContinue) {
+            nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv
+          } else {
+            Write-Warning "nvidia-smi not found; GPU availability not confirmed."
+          }
+          if (Get-Command conda -ErrorAction SilentlyContinue) {
+            conda --version
+          } else {
+            Write-Warning "conda is not visible to the GitHub Actions runner account."
+          }
+          if (Get-Command python -ErrorAction SilentlyContinue) {
+            python --version
+            @'
+          import json
+          from pathlib import Path
+          for filename in ("credit_card_fraud.ipynb", "ensemble_comparison.ipynb", "paired_bootstrap_comparison.ipynb"):
+              n=json.loads(Path(filename).read_text(encoding="utf-8"))
+              cells=n.get("cells", [])
+              assert cells and n.get("nbformat", 0)>=4, filename
+              for c in cells:
+                  if c.get("cell_type")=="code":
+                      compile("".join(c.get("source", [])), filename, "exec")
+              print(f"{filename}: {len(cells)} cells; Python syntax OK")
+          '@ | python -
+          } else {
+            Write-Warning "Python is unavailable; notebook syntax validation skipped."
+          }
+
+      - name: Set up Node.js (only when building slides)
+        if: ${{ inputs.build_presentations }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Build current Marp source to HTML/PDF
+        if: ${{ inputs.build_presentations }}
+        shell: pwsh
+        env:
+          FIGURES_DIRECTORY: ${{ inputs.figures_directory }}
+        run: |
+          .\presentation\build_slides.ps1 -FiguresDirectory $env:FIGURES_DIRECTORY
+
+      - name: Upload compiled slides (no raw Kaggle data)
+        if: ${{ inputs.build_presentations }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: credit-fraud-presentations
+          path: presentation/dist/
+          if-no-files-found: error
+          retention-days: 30

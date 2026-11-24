@@ -1,0 +1,27 @@
+/* @theme fraud-whitegrid */
+@import 'default';
+:root { --blue:#4c72b0; --orange:#dd8452; --green:#55a868; --ink:#262626; --grid:#cccccc; }
+section { background:#fff; color:var(--ink); font-family:Arial,'DejaVu Sans',sans-serif; padding:40px 54px; font-size:26px; border:0; }
+h1,h2 { color:var(--ink); font-weight:700; letter-spacing:-0.03em; }
+h1 { font-size:2.25em; margin:15px 0 25px; max-width:90%; }
+h2 { font-size:1.48em; margin:12px 0 15px; }
+.eyebrow { font-size:0.50em; font-weight:700; letter-spacing:0.17em; text-transform:uppercase; color:var(--blue); padding-bottom:9px; border-bottom:1px solid var(--grid); }
+.lead { font-size:.72em; color:#414952; line-height:1.38; margin:6px 0 15px; }
+.context {font-size:.57em; line-height:1.44; color:#535d65; margin:5px 0 12px;}
+.points {display:grid; grid-template-columns:1fr 1fr; gap:18px 27px; margin-top:15px;}
+.point {border-top:2px solid var(--blue); border-radius:0; padding:10px 0 0; background:none; min-height:95px;}
+.point:nth-child(2) {border-color:var(--orange)} .point:nth-child(3){border-color:var(--green)}
+.point:nth-child(4){border-color:#8172b3}
+.point h3 {font-size:.63em; font-weight:700; margin:0 0 6px; color:#273443;}
+.point p {font-size:.52em; line-height:1.42; margin:0; color:#3c4248;}
+.takeaway,.thesis {border-top:1px solid var(--grid); border-left:0; padding-top:10px; font-weight:600; font-size:.56em; margin-top:15px; color:#355677; background:none;}
+.figure-layout {display:grid; grid-template-columns: minmax(0,69%) minmax(0,31%); gap:24px; align-items:center; height:475px;}
+.plot-panel {height:100%;display:flex;align-items:center;justify-content:center;min-width:0;}
+.plot-panel img{width:100%;height:100%;object-fit:contain;}
+.explanation{border-left:1px solid var(--grid);padding-left:18px;font-size:.55em;line-height:1.40;}
+.explanation h3{font-size:.8em;color:var(--blue);margin:13px 0 5px;letter-spacing:.08em;}
+.explanation p{margin:0 0 13px;}
+.explanation h3:nth-of-type(2){color:var(--orange)}.explanation h3:nth-of-type(3){color:var(--green)}
+.cover {background:white;} .cover .thesis {margin-top:50px;font-size:.73em;max-width:87%;}
+.katex-display,.MathJax_Display, mjx-container[display="true"] { margin:5px 0 !important; font-size:0.58em !important; }
+footer {font-size:12px;color:#66707a;}

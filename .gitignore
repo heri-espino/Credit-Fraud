@@ -1,4 +1,4 @@
-# Competition data must never be publicly redistributed.
+# Raw Kaggle dataset and all row-level predictions or fitted models
 data/
 train.csv
 test.csv
@@ -7,5 +7,19 @@ playground-series-s6e11.zip
 outputs/
 *.joblib
 *.pkl
+*.parquet
+*.feather
+# Python and Jupyter
 __pycache__/
+*.py[cod]
 .ipynb_checkpoints/
+.venv/
+venv/
+# Environment secrets
+.env
+.env.*
+*.secret
+# OS/build
+.DS_Store
+Thumbs.db
+presentation/dist/

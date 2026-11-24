@@ -1,0 +1,6 @@
+strategy,roc_auc,average_precision,description
+ensemble2_logit_offset,0.9462047549947218,0.5074243662689276,Logistic regression corrected with XGBoost logits
+best_single,0.9461201492641279,0.503584584125858,XGBoost fixed depth 5 learning rate 0.05
+ensemble4_rf_stacking,0.9457469470932846,0.5063829984706311,Random forest meta-model on OOF model probabilities
+ensemble1_blend,0.9432801044177533,0.5009129181355586,Probability average
+ensemble3_explicit_residual,0.9402409115631302,0.4940462297189008,XGBoost regressor of explicit LR probability residuals
