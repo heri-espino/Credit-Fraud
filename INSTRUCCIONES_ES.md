@@ -1,23 +1,20 @@
-# Reproducción del cuaderno final — experiment021
+# Reproducción del cuaderno final — experiment022
 
-Desde la raíz del repositorio, conserve outputs/ y coloque el ZIP oficial de Kaggle o los CSV originales en data/.
-
+Conserve los datos y outputs locales. Desde la raíz:
 ```powershell
 git pull --ff-only origin main
 conda activate lds1071-fraud
-python experiments/experiment021/smoke_test.py
+python experiments/experiment022/smoke_test.py
 jupyter lab notebook_final_es.ipynb
 ```
+Cambie las banderas **en la única celda de configuración** y reinicie el kernel; no agregue otra celda de configuración antes de ella.
 
-Seleccione el kernel Python (LDS1071 Fraud) y configure las banderas de la primera celda:
+| Modo | EJECUTAR_PROTOCOLO_COMUN | CARGAR_PROTOCOLO_COMUN | REUTILIZAR_INDIVIDUALES | EJECUTAR_EXTENSION_TOP10 |
+|---|---|---|---|---|
+| Completo desde cero (predeterminado) | True | False | False | True |
+| Reanudar después de sección 3 de exp021 | True | False | True | True |
+| Exp021 ya completo, ajustar extensión | False | True | False | True |
+| Exp021 y exp022 completos, solo gráficos | False | True | False | False |
+| Histórico | False | False | False | False |
 
-| Modo | EJECUTAR_PROTOCOLO_COMUN | CARGAR_PROTOCOLO_COMUN | REUTILIZAR_INDIVIDUALES |
-|---|---|---|---|
-| Histórico (predeterminado) | False | False | False |
-| Nuevo entrenamiento completo | True | False | False |
-| Reanudar desde sección 3 completa | True | False | True |
-| Reproducir experiment021 terminado | False | True | False |
-
-Mantenga EJECUTAR_BUSQUEDA_HIBRIDA=False. Reinicie kernel y ejecute todas las celdas. La sección 3 entrena cuatro modelos individuales; la sección 4 añade promedio, bagging, stacking XGBoost y corrección LR+XGBoost. Los tres boosters usan la misma grilla de 36 combinaciones.
-
-El smoke test usa datos sintéticos y un presupuesto reducido; no se ha ejecutado en esta sesión. El entrenamiento completo también está pendiente. Agregados/checkpoints en outputs/experiment021/; figuras, métricas y envío en outputs/informe_ensambles_es/. Mantenga NPZ privados fuera de Git. Consulte [experiment021](experiments/experiment021/README.md).
+Mantenga EJECUTAR_BUSQUEDA_HIBRIDA=False y N_BAGGING=5. La extensión evalúa 18 variantes individuales y corrección logística K-means fija además de los ocho candidatos de experiment021. Se ordena por ROC AUC OOF y se comparan los diez mejores distintos. Resultados nuevos en outputs/experiment022/; figuras, top10.csv y envío en outputs/informe_top10_es/. Los NPZ son privados y nunca se suben. El smoke test y la corrida nueva están pendientes de ejecución. Véase [experiment022](experiments/experiment022/README.md).
