@@ -19,7 +19,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Verify existing Windows environment without accessing private files
-        shell: pwsh
+        shell: powershell
         run: |
           $ErrorActionPreference = "Stop"
           Write-Host "RUNNER_NAME=$env:RUNNER_NAME"
