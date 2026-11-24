@@ -120,3 +120,13 @@ El cuaderno y los CSV agregados necesarios están versionados en GitHub, mientra
 ## Descarga directa del notebook final (experiment016)
 
 Tras `git pull`, abra [`notebook_final_es.ipynb`](notebook_final_es.ipynb). Los archivos de métricas, el diccionario y los resultados agregados necesarios están en [`experiments/experiment016/resultados/`](experiments/experiment016/resultados/). `INSTRUCCIONES_ES.md` detalla el entorno y la ubicación de la caché OOF. El directorio `outputs/` se mantiene intencionalmente fuera de Git: conserve su copia local para generar las curvas y la entrega Kaggle sin reentrenamiento.
+
+## experiment017 — XGBoost con cinco grupos y umbrales de alerta
+
+La [notebook final](notebook_final_es.ipynb) contiene ahora **54 celdas**: gráficos en Seaborn `dark`, ROC AUC con escala ampliada, y comparación de ensambles exclusivamente con ROC AUC. La búsqueda de XGBoost usa **36 configuraciones**, incluida profundidad máxima 30, que no fue elegida en ninguno de los cinco pliegues.
+
+Con 699,960 observaciones y cinco pliegues: XGBoost original AUC OOF 0.945702; XGBoost fijo más cinco grupos K-means 0.945747, diferencia +0.000044 e intervalo bootstrap 95% [−0.000107,+0.000194], que incluye cero. El XGBoost seleccionado por la búsqueda de 36 configuraciones alcanzó 0.944887. Los [resultados agregados](experiments/experiment017/results) y el [informe](experiments/experiment017/README.md) están versionados.
+
+El apartado de umbral binario presenta matriz de confusión, falsos negativos, falsas alarmas, F1, precisión, recall, accuracy, curva ROC y AUC. Una política ilustrativa del 98% de recall provoca más de 300,000 falsas alarmas; no es una recomendación de operación bancaria. Las predicciones enviadas a Kaggle siempre son probabilidades, sin umbral.
+
+Para ejecutarlo, `git pull --ff-only origin main`, `conda activate lds1071-fraud`, `jupyter lab notebook_final_es.ipynb`. El ZIP entregado en conversación contiene scripts completos y figuras; OOF/test fila a fila permanece en archivos privados y fuera de Git. Continúa pendiente la publicación equivalente del código en el Notebook/Discussion de Kaggle exigida por el concurso.
