@@ -113,3 +113,8 @@ Nuevo `notebook_inferencia_final_es.ipynb`, sin reentrenar ni alterar notebook f
 ## experiment028 — AUC pareado y mapas Seaborn con p-valores originales
 
 Actualiza notebook_inferencia_final_es.ipynb sin alterar entrenamiento ni resultados previos. Recall conservado, DeLong pareado y bootstrap AUC estratificado exacto de ambas clases (2 000 réplicas, semilla 42, hasta 4 hilos, caché por 50); 45 pares por familia, Holm/Bonferroni, diferencias e IC, curvas ROC originales. Estilo seaborn whitegrid/dark/notebook original; mapas de p continuos con escala [0,1], anotaciones y CSV precisos. Salidas outputs/experiment028/figuras y tablas en outputs/experiment028. Inferencia exploratoria; no publicar datos ni NPZ. Sin resultados nuevos hasta ejecutar con predicciones privadas. Ver experiments/experiment028/README.md. Próximo experiment029.
+
+
+## experiment029 — Inferencia final simplificada de F1
+
+Notebook activo reducido a ocho celdas y dos figuras: dashboard 1×2 p bootstrap y Holm (45 pares), IC 95 % de diferencia F1 contra ganador AUC. Nombres originales completos; umbral cruzado recall 98 % original, 100k bootstrap estratificado de patrones, semilla 42, sin reentrenar. Resultados outputs/experiment029, figuras PNG/PDF, versión anterior archivada. Inferencia exploratoria condicionada; no nuevos resultados sin NPZ privados. Ver experiments/experiment029/README.md. Próximo experiment030.
