@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="770" viewBox="0 0 1200 770" role="img" aria-labelledby="title desc">
+<title id="title">Flujo metodológico de predicción de fraude</title><desc id="desc">EDA, preprocesamiento, ingeniería de variables, cuatro representaciones, validación cruzada anidada, ensambles y ranking final.</desc>
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="#526778"/></marker></defs>
+<rect width="1200" height="770" rx="18" fill="#f5f8fb"/>
+<g font-family="Arial, sans-serif" text-anchor="middle" fill="#17354b">
+<text x="600" y="38" font-size="25" font-weight="bold">Predicción de fraude · Diseño experimental</text>
+<g fill="#ffffff" stroke="#486b82" stroke-width="1.6">
+<rect x="380" y="60" width="440" height="58" rx="8"/><rect x="380" y="140" width="440" height="64" rx="8"/>
+<rect x="380" y="226" width="440" height="66" rx="8"/>
+<rect x="35" y="330" width="260" height="60" rx="8"/><rect x="325" y="330" width="260" height="60" rx="8"/><rect x="615" y="330" width="260" height="60" rx="8"/><rect x="905" y="330" width="260" height="60" rx="8"/>
+<rect x="180" y="440" width="840" height="84" rx="8"/>
+<rect x="180" y="555" width="840" height="72" rx="8"/><rect x="180" y="660" width="840" height="82" rx="8"/>
+</g>
+<g stroke="#526778" stroke-width="2" fill="none" marker-end="url(#arr)">
+<path d="M600 118V140"/><path d="M600 204V226"/>
+<path d="M600 292V310H165V330"/><path d="M600 292V310H455V330"/><path d="M600 292V310H745V330"/><path d="M600 292V310H1035V330"/>
+<path d="M165 390V414H600V440"/><path d="M455 390V414H600V440"/><path d="M745 390V414H600V440"/><path d="M1035 390V414H600V440"/>
+<path d="M600 524V555"/><path d="M600 627V660"/>
+</g>
+<g font-size="19" font-weight="bold">
+<text x="600" y="84">1. Análisis exploratorio (EDA)</text><text x="600" y="165">2. Preprocesamiento</text><text x="600" y="251">3. Ingeniería de variables</text>
+<text x="165" y="354">raw</text><text x="455" y="354">standardized</text><text x="745" y="354" font-size="17">raw_kmeans_dbscan</text><text x="1035" y="354" font-size="15">standardized_kmeans_dbscan</text>
+<text x="600" y="463">4. Búsqueda anidada · representación × hiperparámetros</text><text x="600" y="579">5. Ensambles · cuatro representaciones + selección adaptativa</text><text x="600" y="684">6. Evaluación final · top 10 por ROC AUC OOF</text>
+</g>
+<g font-size="15" fill="#486277">
+<text x="600" y="105">Distribuciones, faltantes, correlaciones y desbalance</text><text x="600" y="188">Imputación · one-hot · escalado opcional</text><text x="600" y="275">PCA geométrica · K-means · DBSCAN</text>
+<text x="165" y="376">Sin escalado ni clusters</text><text x="455" y="376">Escalado sin clusters</text><text x="745" y="376">Sin escalado + clusters</text><text x="1035" y="376">Escalado + clusters</text>
+<text x="600" y="486">Logística · bosque aleatorio · XGBoost · CatBoost</text><text x="600" y="508">5 folds externos × 3 internos · transformaciones ajustadas solo en entrenamiento</text>
+<text x="600" y="604">Promedio · bagging · stacking XGBoost · corrección del logit</text>
+<text x="600" y="708">ROC · PR · calibración · F1 · matriz de confusión · envío de probabilidades</text><text x="600" y="730">40 candidatos nominales · duplicados exactos excluidos del ranking</text>
+</g></g></svg>
