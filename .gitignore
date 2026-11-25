@@ -22,4 +22,3 @@ venv/
 # OS/build
 .DS_Store
 Thumbs.db
-presentation/dist/
