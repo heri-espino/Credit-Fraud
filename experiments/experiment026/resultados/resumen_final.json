@@ -1,0 +1,27 @@
+{
+  "protocolo": "experiment024",
+  "seleccion_nominal": "Logística + XGBoost | standardized_kmeans_dbscan",
+  "n_candidatos": 40,
+  "n_top10": 10,
+  "auc_seleccionado": 0.9459909936140145,
+  "observaciones_entrenamiento": 699960,
+  "observaciones_prueba": 299984,
+  "n_particiones": 5,
+  "firma": "c9bfae19f0b3275192b44a04c05da9f393856b7f05e4d60d8d56923aa060f67c",
+  "hardware": {
+    "xgb_device": "cuda",
+    "catboost_device": "GPU",
+    "cpu_threads": 32,
+    "grid_jobs": 4,
+    "versions": {
+      "numpy": "2.4.6",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.9.1",
+      "xgboost": "3.2.0",
+      "catboost": "1.2.10",
+      "joblib": "1.6.0",
+      "threadpoolctl": "3.8.0"
+    }
+  },
+  "nota": "Selección OOF exploratoria; no equivale a prueba independiente."
+}

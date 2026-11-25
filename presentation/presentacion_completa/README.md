@@ -1,3 +1,3 @@
-# Presentación completa (versión 10)
+# Presentación completa · experiment024
 
-93 diapositivas en español. Fuente actual: `deck.md`, con 51 figuras previstas, análisis estadístico y comparación de ensambles. Para HTML/PDF actualizados, ejecute `../build_slides.ps1` en la estación Windows. Las exportaciones antiguas están preservadas bajo `../archive/v7/`.
+53 diapositivas; 27 figuras originales más diagrama del pipeline. Fuente deck.md y guion_del_presentador.md. Compilación: [README](../README.md).

@@ -1,615 +1,379 @@
-# Guion de presentación · Predicción de fraude · presentación corta revisada
+# Guion · experiment024
 
-Los textos desarrollan el argumento de cada diapositiva. La estimación bootstrap es condicional a las predicciones OOF y no reemplaza una evaluación independiente.
+No afirmar significancia estadística ni score Kaggle.
 
-## Diapositiva 1 — Predicción probabilística de fraude con tarjetas
+## 1. Portada
+Presentar el problema antes de revelar el resultado.
 
-**Contexto.** Kaggle Playground S6E11 · De los datos y la PCA a la comparación de modelos y ensambles
+## 2. ¿Qué queremos predecir?
 
-**Explicación.**  Presentamos el procedimiento completo que lleva a una predicción de probabilidad y a la selección de un modelo. El conjunto es sintético, con variables con significado transaccional.
+Una transacción puede ser legítima o fraudulenta. Buscamos estimar su probabilidad de fraude.
 
-**Conclusión.** Problema, análisis exploratorio, modelos, validación y selección con incertidumbre explícita.
+$$\hat p(x)\approx P(Y=1\mid X=x),\quad Y\in\{0,1\}.$$
 
-**Tiempo orientativo:** 0.32 minutos
+- **Entrada:** variables observadas de la transacción, sin usar el identificador.
+- **Salida:** probabilidad entre 0 y 1 por cada fila de prueba.
+- **Objetivo:** maximizar ROC AUC, métrica de Kaggle.
+- **Decisión operativa:** convertir la probabilidad en una alerta sólo si se define un umbral.
 
-## Diapositiva 2 — El objetivo: estimar probabilidades, no sólo asignar clases
+## 3. ¿Con qué información contamos?
 
-**Contexto.** El objetivo observado es binario, pero la entrega de Kaggle exige un número entre 0 y 1 para cada operación.
+| Conjunto | Observaciones | Etiqueta |
+|---|---:|---|
+| Entrenamiento | 699 960 | is_fraud (0/1) |
+| Prueba | 299 984 | Desconocida |
 
-**Explicación.**  Hay una variable respuesta binaria, y=0/1, pero el archivo de envío es id,is_fraud con probabilidades. Técnicamente entrenamos clasificadores probabilísticos, no una regresión lineal que pueda predecir valores negativos o mayores que uno. ROC AUC valora discriminación de rangos; log loss y Brier complementan el análisis de calibración.
+**24 predictores:** 13 numéricos (monto, saldo, velocidad, riesgo, tiempo, etc.), 5 categóricos (comercio, tarjeta, autenticación, canal y dispositivo) y 6 booleanos (banderas de riesgo). El campo id sólo identifica filas.
 
-**Conclusión.** La tarea es clasificación probabilística: no regresión lineal ordinaria. La calibración importa para interpretar probabilidades, aunque la métrica oficial sea ROC AUC.
+## 4. ¿Por qué ROC AUC y no exactitud?
 
-**Fórmula:** $$\hat p(x)=P(Y=1\mid X=x)=\frac{1}{1+e^{-f(x)}}$$
+$$\mathrm{AUC}=P(s(X^+)>s(X^-))+\tfrac12 P(s(X^+)=s(X^-)).$$
 
-**Tiempo orientativo:** 0.66 minutos
+- **ROC AUC:** capacidad de ordenar fraudes por encima de legítimas.
+- **Average precision (AP):** resume precisión–recall; referencia aleatoria = prevalencia.
+- **Log loss / Brier:** evalúan probabilidades, no sólo ranking.
+- **Recall, precisión y F1:** dependen de un umbral.
 
-## Diapositiva 3 — Inventario del conjunto de datos
+La exactitud puede ser engañosa cuando la clase positiva es rara.
 
-**Contexto.** Entrenamiento: 699,960 operaciones; prueba: 299,984. Hay 24 predictores, además del identificador y la etiqueta.
+## 5. Desbalance y valores faltantes
 
-**Explicación.**  Los 24 predictores se clasificaron por tipo mediante inspección de train.csv. Los 13 numéricos incluyen variables temporales y de historial; los cinco categóricos describen la transacción; los seis booleanos funcionan como indicadores de contexto. Nunca utilizar id como predictor sin justificación, ya que podría aprender artefactos del identificador.
+**Lectura:** Distribución de is_fraud y porcentaje de faltantes.
 
-**Conclusión.** Los datos mezclan escalas y tipos; por eso el tratamiento debe adaptarse a modelos lineales y árboles.
+**Resultado:** 11 689 fraudes (1,67 %) y 688 271 legítimas (98,33 %). No se observan faltantes.
 
-**Tiempo orientativo:** 0.63 minutos
+**Alcance:** Predecir siempre legítima da 98,33 % de exactitud pero recall cero.
 
-## Diapositiva 4 — Frecuencia de fraude y valores faltantes
+## 6. Distribuciones numéricas
 
-**Contexto.** 
+**Lectura:** Histogramas de seis variables en una muestra.
 
-**Explicación.**  La clase positiva representa una pequeña fracción. Se eligió partición estratificada y métricas como ROC AUC y precisión promedio. Se verificó completitud para el conjunto de entrenamiento.
+**Resultado:** Monto, saldo y tiempo presentan asimetrías; velocidad y riesgo tienen otras escalas.
 
-**Conclusión.** 11,689 fraudes frente a 688,271 operaciones legítimas: prevalencia de 1.67%. En train no aparecen valores faltantes.
+**Alcance:** No se eliminan automáticamente valores extremos.
 
-**Figura:** 01_target_and_missingness.png
+## 7. Correlación de Spearman
 
-**Procedimiento:** Se calculó la distribución de is_fraud y el porcentaje de registros faltantes para cada variable.
+**Lectura:** Asociación monótona de numéricas y booleanas.
 
-**Interpretación:** 11,689 fraudes frente a 688,271 operaciones legítimas: prevalencia de 1.67%. En train no aparecen valores faltantes.
+**Resultado:** Predominan correlaciones bajas, con asociaciones localizadas.
 
-**Limitación:** Predecir siempre «no fraude» daría exactitud alta, pero no permitiría ordenar operaciones de riesgo.
+**Alcance:** No descarta interacciones ni relaciones no monótonas.
 
-**Tiempo orientativo:** 0.51 minutos
+## 8. Fraude por categoría y canal
 
-## Diapositiva 5 — EDA: preguntas y análisis realizados
+**Lectura:** Tasas por grupo sobre el entrenamiento completo.
 
-**Contexto.** La exploración no se redujo a una matriz de correlaciones: se examinó la información desde varias perspectivas.
+**Resultado:** Gift Cards, Crypto Exchange y Gaming muestran tasas superiores a la referencia; los canales varían menos.
 
-**Explicación.**  Los análisis corresponden a las figuras 01–11 y 20–25. En las siguientes diapositivas mostramos la evidencia más útil para decidir el modelado. En las figuras de densidad con clases balanceadas artificialmente no se debe inferir la prevalencia real.
+**Alcance:** Interpretar con tamaños de grupo; no son efectos causales.
 
-**Conclusión.** El EDA sirvió para decidir qué transformaciones y modelos merecía la pena comparar; ninguna asociación marginal demuestra causalidad.
+## 9. Relaciones no lineales
 
-**Tiempo orientativo:** 0.58 minutos
+**Lectura:** Tasas observadas por doce cuantiles.
 
-## Diapositiva 6 — Distribución condicional: ECDF por clase
+**Resultado:** Velocidad y riesgo del comercio muestran aumentos pronunciados en los cuantiles altos.
 
-**Contexto.** 
+**Alcance:** La tasa marginal no equivale a la relación multivariable.
 
-**Explicación.**  Se visualizaron distribuciones numéricas originales y por clase, incluyendo las colas. La diferencia entre curvas de distribución no es equivalente a una regla de decisión individual.
+## 10. Interacciones entre predictores
 
-**Conclusión.** Las curvas se desplazan de forma diferente según la variable; hay señal marginal, pero las dos clases mantienen áreas de solapamiento.
+**Lectura:** Tasas conjuntas por quintiles.
 
-**Figura:** 21_class_conditional_ecdfs.png
+**Resultado:** La celda de mayor velocidad y riesgo comercial alcanza 9,10 % de fraude.
 
-**Procedimiento:** Se comparó la ECDF de predictores numéricos en fraudes y transacciones legítimas, además de histogramas y densidades.
+**Alcance:** Las interacciones motivan árboles; no prueban causalidad.
 
-**Interpretación:** Las curvas se desplazan de forma diferente según la variable; hay señal marginal, pero las dos clases mantienen áreas de solapamiento.
+## 11. Anomalías multivariantes
 
-**Limitación:** Una ECDF condicionada por clase no indica por sí sola la probabilidad de fraude de una observación.
+**Lectura:** Distribución de puntuaciones de Isolation Forest por clase.
 
-**Tiempo orientativo:** 0.43 minutos
+**Resultado:** Fraudes tienden a scores de anomalía mayores; existe solapamiento.
 
-## Diapositiva 7 — Correlaciones: linealidad y monotonía
+**Alcance:** Diagnóstico descriptivo, no predictor del pipeline.
 
-**Contexto.** 
+## 12. Del diagnóstico a las hipótesis
 
-**Explicación.**  Se realizó el siguiente análisis: Se calcularon correlaciones de Pearson y de Spearman para detectar dependencia lineal y monotónica entre predictores.
+- Diferencias de escala → comparar estandarización con datos sin escalar.
+- No linealidades e interacciones → comparar logística y árboles.
+- Anomalías y vecindades → construir características geométricas mediante clustering.
+- Desbalance → estratificación, ROC AUC y métricas de alertas.
 
-Se observa lo siguiente: La matriz ayuda a anticipar redundancia y posibles problemas de colinealidad para la regresión logística.
+**Las decisiones se contrastan mediante validación cruzada; el EDA no demuestra superioridad de ningún modelo.**
 
-La interpretación debe considerar que Correlaciones pequeñas no descartan relaciones en U ni efectos de interacción; por eso se hicieron gráficos adicionales.
+## 13. El flujo metodológico del notebook
 
-**Conclusión.** La matriz ayuda a anticipar redundancia y posibles problemas de colinealidad para la regresión logística.
+   
 
-**Figura:** 04_pearson_spearman_correlations.png
+## 14. Imputación, one-hot y estandarización
 
-**Procedimiento:** Se calcularon correlaciones de Pearson y de Spearman para detectar dependencia lineal y monotónica entre predictores.
+$$z_j=\frac{x_j-\hat\mu_j}{\hat\sigma_j}.$$
 
-**Interpretación:** La matriz ayuda a anticipar redundancia y posibles problemas de colinealidad para la regresión logística.
+- Numéricas: mediana y escalado opcional.
+- Booleanas: 0/1 e imputación por moda.
+- Categóricas: moda y one-hot encoding; niveles desconocidos ignorados.
+- Raw conserva la escala original de numéricas, pero también usa one-hot.
 
-**Limitación:** Correlaciones pequeñas no descartan relaciones en U ni efectos de interacción; por eso se hicieron gráficos adicionales.
+**Todas las transformaciones se ajustan únicamente en el entrenamiento de cada split.**
 
-**Tiempo orientativo:** 0.44 minutos
+## 15. PCA: retener 90 % de la varianza
 
-## Diapositiva 8 — Categorías y banderas: efectos conjuntos
+**Lectura:** Varianza acumulada y proyección ilustrativa en dos dimensiones.
 
-**Contexto.** 
+**Resultado:** Las clases se solapan; PCA 90 % permite construir distancias de clustering.
 
-**Explicación.**  Además de este cruce se calcularon las tasas marginales por categoría y banderas individuales, y se inspeccionó el tamaño de cada subgrupo.
+**Alcance:** Se reajusta por split; no es un quinto candidato de representación.
 
-**Conclusión.** La frecuencia de una condición y su tasa de fraude son cuestiones distintas; algunas combinaciones concentran riesgo mayor.
+## 16. K-means: distancias a centroides
 
-**Figura:** 22_categorical_flag_interactions.png
+$$\min_{\mu_1,\ldots,\mu_k}\sum_i\min_j\|z_i-\mu_j\|_2^2.$$
 
-**Procedimiento:** Se midieron tasas de fraude y tamaños de grupo al cruzar categorías comerciales y de canal con banderas binarias.
+- Geometría PCA sobre datos estandarizados; referencia de hasta 15 000 filas del entrenamiento.
+- k = 5, 10 inicializaciones y semilla fija.
+- Cinco distancias a centroides y una distancia mínima: **seis nuevas características**.
+- Validación y prueba se transforman con centroides ya ajustados.
 
-**Interpretación:** La frecuencia de una condición y su tasa de fraude son cuestiones distintas; algunas combinaciones concentran riesgo mayor.
+## 17. DBSCAN: densidad y ruido
 
-**Limitación:** Las celdas con pocos datos tienen más variabilidad: se muestran los conteos antes de interpretar diferencias.
+$$d_{\rm core}(z)=\min_{c\in\mathcal C}\|z-c\|_2.$$
 
-**Tiempo orientativo:** 0.49 minutos
+- Referencia de hasta 2 300 observaciones, min_samples = 5.
+- ε: cuantil 90 % de la distancia al quinto vecino de referencia.
+- Dos nuevas características: distancia al núcleo más cercano e indicador de distancia mayor que ε.
+- Total: seis características K-means + dos DBSCAN.
 
-## Diapositiva 9 — Poder discriminante de una sola variable
+No se crean transacciones sintéticas ni se eliminan columnas originales.
 
-**Contexto.** 
+## 18. Diagnósticos de clustering
 
-**Explicación.**  Se realizó el siguiente análisis: Para cada variable se evaluó su capacidad de separar fraudes de operaciones legítimas de forma individual.
+**Lectura:** Inercia, silueta y proporción de ruido.
 
-Se observa lo siguiente: Algunos predictores tienen señal por sí solos; otros dependen de interacciones con el contexto de la operación.
+**Resultado:** La inercia decrece con k; la silueta no es monótona. El ruido baja al ampliar ε.
 
-La interpretación debe considerar que La puntuación univariada no sustituye un modelo multivariado ni mide causalidad.
+**Alcance:** k=5 y cuantil 0,90 son decisiones fijas, no óptimos demostrados.
 
-**Conclusión.** Algunos predictores tienen señal por sí solos; otros dependen de interacciones con el contexto de la operación.
+## 19. Diseño factorial: cuatro alternativas
 
-**Figura:** 20_univariate_feature_discrimination.png
+| Representación | Escalado | One-hot | K-means + DBSCAN |
+|---|:---:|:---:|:---:|
+| raw | No | Sí | No |
+| standardized | Sí | Sí | No |
+| raw_kmeans_dbscan | No | Sí | Sí |
+| standardized_kmeans_dbscan | Sí | Sí | Sí |
 
-**Procedimiento:** Para cada variable se evaluó su capacidad de separar fraudes de operaciones legítimas de forma individual.
+La geometría para clustering siempre está estandarizada; se escalan las distancias añadidas sólo en las ramas standardized. El indicador de ruido sigue binario.
 
-**Interpretación:** Algunos predictores tienen señal por sí solos; otros dependen de interacciones con el contexto de la operación.
+## 20. Validación cruzada anidada
 
-**Limitación:** La puntuación univariada no sustituye un modelo multivariado ni mide causalidad.
+- **5 folds externos** estratificados: cada operación recibe una predicción fuera de fold (OOF).
+- **3 folds internos:** hasta 36 000 filas estratificadas del entrenamiento externo.
+- Se reajustan imputación, one-hot, escalado, PCA y clusters dentro de cada split.
+- Se eligen parámetros por AUC interna; refit en todo el entrenamiento externo.
+- Para test, promedio de cinco probabilidades.
 
-**Tiempo orientativo:** 0.39 minutos
+$$\hat p_i^{\rm OOF}=\hat f_{-k(i)}(x_i).$$
 
-## Diapositiva 10 — Patrones temporales: hora y día
+El fold externo permanece retenido; la selección final por OOF sigue siendo exploratoria.
 
-**Contexto.** 
+## 21. Regresión logística
 
-**Explicación.**  Se realizó el siguiente análisis: Se calculó la tasa de fraude para combinaciones de hora del día y día de la semana.
+$$\hat p(x)=\sigma(\beta_0+x^\top\beta),\qquad\sigma(t)=\frac{1}{1+e^{-t}}.$$
 
-Se observa lo siguiente: El riesgo puede variar según la combinación temporal y no sólo por la hora considerada de manera aislada.
+- Regularización L2: C ∈ {0,01; 0,1; 1; 10}.
+- Ponderación: None o balanced.
+- Ocho configuraciones por representación.
+- El escalado modifica el condicionamiento y la penalización.
 
-La interpretación debe considerar que Deben revisarse los conteos en cada celda antes de extrapolar un patrón; no se dispone aquí de secuencia por cliente.
+La logística ofrece una base probabilística para la corrección posterior.
 
-**Conclusión.** El riesgo puede variar según la combinación temporal y no sólo por la hora considerada de manera aislada.
+## 22. Logística: efecto de la estandarización
 
-**Figura:** 23_weekly_hourly_fraud_surface.png
+**Lectura:** Distribución de AUC interna por representación.
 
-**Procedimiento:** Se calculó la tasa de fraude para combinaciones de hora del día y día de la semana.
+**Resultado:** Las variantes estandarizadas muestran puntuaciones típicas más altas; raw presenta valores bajos dispersos.
 
-**Interpretación:** El riesgo puede variar según la combinación temporal y no sólo por la hora considerada de manera aislada.
+**Alcance:** No es el ranking externo OOF.
 
-**Limitación:** Deben revisarse los conteos en cada celda antes de extrapolar un patrón; no se dispone aquí de secuencia por cliente.
+## 23. Bosque aleatorio: cuatro representaciones
 
-**Tiempo orientativo:** 0.39 minutos
+**Lectura:** AUC interna de nueve configuraciones por representación.
 
-## Diapositiva 11 — No linealidad: riesgo por cuantiles
+**Resultado:** Las ramas sin clusters presentan medianas mayores en esta grilla.
 
-**Contexto.** 
+**Alcance:** No demuestra un efecto causal ni sustituye al OOF.
 
-**Explicación.**  Se realizó el siguiente análisis: Se agruparon variables continuas por cuantiles y se estimó la tasa de fraude dentro de cada intervalo.
+## 24. XGBoost: boosting de árboles
 
-Se observa lo siguiente: Monto, velocidad y riesgo del comercio presentan cambios de pendiente; algunas relaciones no son monotónicas.
+$$F_m(x)=F_{m-1}(x)+\eta h_m(x),\quad \hat p(x)=\sigma(F_M(x)).$$
 
-La interpretación debe considerar que Un logit aditivo lineal puede ser insuficiente; se probaron splines y árboles como alternativas.
+- 240 árboles; profundidad: 3, 5, 7, 10, 15, 30.
+- Tasa de aprendizaje: 0,04; 0,08.
+- min_child_weight: 5, 10, 15.
 
-**Conclusión.** Monto, velocidad y riesgo del comercio presentan cambios de pendiente; algunas relaciones no son monotónicas.
+**6 × 2 × 3 = 36 configuraciones**; misma grilla en XGBoost individual, stacking y corrector de logits.
 
-**Figura:** 07_nonlinear_binned_fraud_rates.png
+## 25. XGBoost: cuatro representaciones
 
-**Procedimiento:** Se agruparon variables continuas por cuantiles y se estimó la tasa de fraude dentro de cada intervalo.
+**Lectura:** 36 configuraciones por representación y fold.
 
-**Interpretación:** Monto, velocidad y riesgo del comercio presentan cambios de pendiente; algunas relaciones no son monotónicas.
+**Resultado:** Amplio solapamiento de distribuciones internas; no se aprecia una ventaja clara del escalado.
 
-**Limitación:** Un logit aditivo lineal puede ser insuficiente; se probaron splines y árboles como alternativas.
+**Alcance:** Los árboles pueden ser poco sensibles a escalas monótonas.
 
-**Tiempo orientativo:** 0.53 minutos
+## 26. CatBoost: cuatro representaciones
 
-## Diapositiva 12 — Interacciones entre características
+**Lectura:** AUC interna de ocho configuraciones por representación.
 
-**Contexto.** 
+**Resultado:** Medianas próximas; con clusters hay mayor dispersión inferior.
 
-**Explicación.**  Se realizó el siguiente análisis: Se calcularon tasas de fraude dentro de celdas definidas por pares de variables y se indicó su soporte muestral.
+**Alcance:** No es una comparación OOF.
 
-Se observa lo siguiente: Riesgo del comercio y velocidad transaccional muestran un patrón conjunto que no se resume con una correlación.
+## 27. Espacio de búsqueda común
 
-La interpretación debe considerar que Son tasas marginales condicionadas en dos variables; otros predictores pueden alterar la interpretación.
+| Familia | Por representación | × 4 representaciones |
+|---|---:|---:|
+| Logística | 8 | 32 |
+| Bosque aleatorio | 9 | 36 |
+| XGBoost | 36 | 144 |
+| CatBoost | 8 | 32 |
+| **Total** | **61** | **244** |
 
-**Conclusión.** Riesgo del comercio y velocidad transaccional muestran un patrón conjunto que no se resume con una correlación.
+244 × 3 folds internos × 5 externos = **3 660 ajustes internos nominales** de modelos individuales.
 
-**Figura:** 09_bivariate_interaction_heatmaps.png
+## 28. La representación es un hiperparámetro
 
-**Procedimiento:** Se calcularon tasas de fraude dentro de celdas definidas por pares de variables y se indicó su soporte muestral.
+$$(r^*,\theta^*)=\arg\max_{r,\theta}\frac13\sum_{j=1}^{3}\mathrm{AUC}_j(r,\theta).$$
 
-**Interpretación:** Riesgo del comercio y velocidad transaccional muestran un patrón conjunto que no se resume con una correlación.
+- Por familia y representación: elegir mejor configuración interna.
+- 4 familias × 4 representaciones = 16 candidatos fijos.
+- Un selector adaptativo por familia: elige representación y parámetros por fold.
+- 16 + 4 = **20 modelos individuales**.
 
-**Limitación:** Son tasas marginales condicionadas en dos variables; otros predictores pueden alterar la interpretación.
+Ninguna etiqueta de validación externa participa en la selección interna.
 
-**Tiempo orientativo:** 0.52 minutos
+## 29. Promedio y bagging
 
-## Diapositiva 13 — Valores extremos por rango intercuartílico
+$$\hat p_{\rm promedio}=\tfrac14\sum_{j=1}^4\hat p_j,\quad\hat p_{\rm bagging}=\tfrac15\sum_{b=1}^5\hat p_b.$$
 
-**Contexto.** 
+- **Promedio:** combinar las cuatro probabilidades de las familias seleccionadas.
+- **Bagging:** cinco réplicas bootstrap de XGBoost, con reemplazo, usando parámetros seleccionados.
+- Cuatro escenarios fijos y uno adaptativo.
+- Reducir varianza no garantiza que aumente AUC.
 
-**Explicación.**  Se realizó el siguiente análisis: Se aplicaron cercas a tres IQR de los cuartiles para localizar colas y valores numéricos extremos.
+## 30. Stacking: aprender a combinar probabilidades
 
-Se observa lo siguiente: Las transacciones de monto elevado pueden ser legítimas y algunas compras fraudulentas no son extremas.
+$$\hat p_{\rm stack}(x)=g(\hat p_{LR},\hat p_{RF},\hat p_{XGB},\hat p_{CAT}).$$
 
-La interpretación debe considerar que No se eliminaron automáticamente observaciones: una regla de limpieza podría borrar señal predictiva.
+- El meta-modelo XGBoost recibe cuatro probabilidades.
+- Cross-fitting para producir entradas OOF de meta-entrenamiento.
+- Meta-validación con bases ajustadas únicamente en meta-entrenamiento.
+- Misma grilla de 36 configuraciones.
 
-**Conclusión.** Las transacciones de monto elevado pueden ser legítimas y algunas compras fraudulentas no son extremas.
+La selección previa de las bases condiciona la evaluación interna; el fold externo sigue retenido.
 
-**Figura:** 10_univariate_outliers.png
+## 31. Logística + XGBoost: corregir el logit
 
-**Procedimiento:** Se aplicaron cercas a tres IQR de los cuartiles para localizar colas y valores numéricos extremos.
+$$\hat p(x)=\sigma\big(f_{\rm LR}(x)+g_{\rm XGB}(x)\big).$$
 
-**Interpretación:** Las transacciones de monto elevado pueden ser legítimas y algunas compras fraudulentas no son extremas.
+1. Elegir y ajustar la logística mediante AUC interna.
+2. Usar su logit como **base_margin** en el ajuste XGBoost.
+3. Evaluar las 36 configuraciones del corrector.
+4. Pasar también base_margin en predicción; ambas etapas usan la misma representación.
 
-**Limitación:** No se eliminaron automáticamente observaciones: una regla de limpieza podría borrar señal predictiva.
+No es stacking de probabilidades ni regresión de residuos explícitos.
 
-**Tiempo orientativo:** 0.42 minutos
+## 32. Corrección de logits: búsqueda de 36 boosters
 
-## Diapositiva 14 — Detección no supervisada de anomalías
+**Lectura:** AUC interna por escenario.
 
-**Contexto.** 
+**Resultado:** La rama standardized presenta mediana interna alta; el ranking OOF puede diferir.
 
-**Explicación.**  Se realizó el siguiente análisis: Isolation Forest asignó puntajes de anomalía sin usar is_fraud; después se comparó la tasa de fraude en los grupos.
+**Alcance:** La selección final utiliza AUC OOF.
 
-Se observa lo siguiente: Los eventos señalados fueron más propensos al fraude dentro de la muestra exploratoria, aunque no coincidían exactamente.
+## 33. 40 candidatos y aceleración
 
-La interpretación debe considerar que Anomalía estadística y fraude no son equivalentes; este diagnóstico no es una validación independiente.
+| Grupo | Candidatos |
+|---|---:|
+| 4 familias × 5 escenarios | 20 |
+| 4 ensambles × 5 escenarios | 20 |
+| **Total nominal** | **40** |
 
-**Conclusión.** Los eventos señalados fueron más propensos al fraude dentro de la muestra exploratoria, aunque no coincidían exactamente.
+La corrida confirma XGBoost CUDA, CatBoost GPU, 32 hilos CPU y hasta 4 configuraciones CPU simultáneas. 9 060 ajustes internos nominales antes de reutilización, más auxiliares y refits. No hay benchmark temporal en el ZIP.
 
-**Figura:** 11_isolation_forest_anomaly_diagnostics.png
+## 34. Top 10 por ROC AUC OOF
 
-**Procedimiento:** Isolation Forest asignó puntajes de anomalía sin usar is_fraud; después se comparó la tasa de fraude en los grupos.
+**Lectura:** Ranking de 40 candidatos nominales, excluyendo duplicados exactos de predicciones.
 
-**Interpretación:** Los eventos señalados fueron más propensos al fraude dentro de la muestra exploratoria, aunque no coincidían exactamente.
+**Resultado:** Tres correctores logísticos ocupan los primeros lugares; gana standardized_kmeans_dbscan.
 
-**Limitación:** Anomalía estadística y fraude no son equivalentes; este diagnóstico no es una validación independiente.
+**Alcance:** El eje está ampliado. No se dispone de IC nuevo.
 
-**Tiempo orientativo:** 0.42 minutos
+## 35. Top 10: valores redondeados
 
-## Diapositiva 15 — ¿Train y test tienen distribuciones similares?
+    #  Modelo  Representación  ROC AUC  AP      1  Logística + XGBoost  E + K + D  0,945991  0,507054    2  Logística + XGBoost  Adaptativa  0,945939  0,507165    3  Logística + XGBoost  E  0,945911  0,506537    4  Stacking XGBoost  E  0,944241  0,490959    5  Stacking XGBoost  Adaptativa  0,944197  0,489923    6  Stacking XGBoost  E + K + D  0,944149  0,489329    7  Bagging XGBoost  Raw  0,943996  0,496211    8  Stacking XGBoost  Raw + K + D  0,943960  0,488966    9  CatBoost  Adaptativa  0,943933  0,501852    10  CatBoost  Raw  0,943925  0,501742     E = estandarizada; K = K-means; D = DBSCAN. Fuente: top10.csv. 
 
-**Contexto.** 
+## 36. El finalista: ¿cuánto mejora?
 
-**Explicación.**  Se realizó el siguiente análisis: Se superpusieron ECDF de train y test para revisar cambios de distribución de predictores.
+ 0,945991  ROC AUC OOF  
 
-Se observa lo siguiente: Este diagnóstico permite identificar posibles desplazamientos que podrían afectar el desempeño fuera de muestra.
+| Comparación | Diferencia AUC |
+|---|---:|
+| Contra logística + XGBoost estandarizada sin clusters | +0,000080 |
+| Contra logística + XGBoost adaptativa | +0,000052 |
 
-La interpretación debe considerar que Test carece de etiquetas públicas: no se puede medir directamente su ROC AUC antes de la evaluación de Kaggle.
+AP = 0,507054 · Log loss = 0,045837 · Brier = 0,011053.
 
-**Conclusión.** Este diagnóstico permite identificar posibles desplazamientos que podrían afectar el desempeño fuera de muestra.
+El máximo nominal no demuestra superioridad estadística ni separa la contribución de K-means y DBSCAN.
 
-**Figura:** 25_train_test_ecdf_shift.png
+## 37. ROC y precisión–recall
 
-**Procedimiento:** Se superpusieron ECDF de train y test para revisar cambios de distribución de predictores.
+**Lectura:** Predicciones OOF reales de los diez modelos.
 
-**Interpretación:** Este diagnóstico permite identificar posibles desplazamientos que podrían afectar el desempeño fuera de muestra.
+**Resultado:** Las ROC casi coinciden; PR permite examinar la clase rara.
 
-**Limitación:** Test carece de etiquetas públicas: no se puede medir directamente su ROC AUC antes de la evaluación de Kaggle.
+**Alcance:** La referencia PR aleatoria es 1,67 %; AUC no elige umbral.
 
-**Tiempo orientativo:** 0.40 minutos
+## 38. Calibración de probabilidades
 
-## Diapositiva 16 — Síntesis del EDA: decisiones justificadas
+**Lectura:** Frecuencia observada contra probabilidad media en 15 cuantiles.
 
-**Contexto.** Las conclusiones del análisis exploratorio se tradujeron en hipótesis de modelado que luego se contrastaron por validación cruzada.
+**Resultado:** Puntos concentrados en probabilidades bajas; curvas próximas.
 
-**Explicación.**  También se calcularon diagramas por pares, tasas marginales por canal, tipo de dispositivo y otras categorías, densidades por clase y ECDF. En el EDA no se realizó una selección definitiva de variables por observar la etiqueta en un holdout.
+**Alcance:** No garantiza calibración en las colas ni estabilidad temporal.
 
-**Conclusión.** Explorar sirve para formular alternativas; el criterio para retenerlas es su desempeño en observaciones no utilizadas en el ajuste.
+## 39. Tres políticas de alerta del finalista
 
-**Tiempo orientativo:** 0.54 minutos
+| Política OOF | Umbral | Recall | Precisión | F1 | FN / FP |
+|---|---:|---:|---:|---:|---:|
+| 0,50 | 0,5000 | 30,82 % | 75,43 % | 0,4376 | 8 087 / 1 173 |
+| Máximo F1 | 0,2510 | 46,11 % | 54,67 % | 0,5003 | 6 299 / 4 469 |
+| Recall 98 % | 0,002076 | 98,01 % | 3,59 % | 0,0693 | 233 / 307 241 |
 
-## Diapositiva 17 — Validación cruzada sin fuga de información
+Reducir fraudes omitidos eleva alertas falsas. Umbrales ajustados sobre OOF completo: resultados descriptivos.
 
-**Contexto.** Los modelos se compararon con cinco folds estratificados y predicciones out-of-fold (OOF).
+## 40. Matriz de confusión: recall cercano al 98 %
 
-**Explicación.**  
+**Lectura:** Umbral elegido en otros folds OOF y aplicado al fold retenido.
 
-**Conclusión.** La validación evita optimismo por entrenamiento dentro del fold; seleccionar el máximo entre muchas alternativas aún requiere cautela.
+**Resultado:** 11 455 VP, 234 FN, 305 799 FP y 382 472 VN. Recall 98,00 %; F1 0,06965.
 
-**Tiempo orientativo:** 0.61 minutos
+**Alcance:** 44,43 % de legítimas alertadas; no es validación independiente.
 
-## Diapositiva 18 — PCA mediante SVD: por qué se probó
+## 41. Entrega de probabilidades a Kaggle
 
-**Contexto.** Se buscó una representación más compacta conservando al menos el 90% de la varianza de las variables procesadas.
+- Finalista: Logística + XGBoost | standardized_kmeans_dbscan.
+- 299 984 filas de prueba; columnas id,is_fraud.
+- Probabilidades finitas entre 0 y 1, sin umbral.
+- No hay score confirmado del leaderboard en el ZIP.
 
-**Explicación.**  
+El archivo de predicciones individuales permanece privado.
 
-**Conclusión.** Preservar varianza de X no garantiza preservar la señal para predecir Y; la prueba es empírica.
+## 42. Conclusiones y trabajo futuro
 
-**Fórmula:** $$X_c=U\Sigma V^{T}$$
+- Se evaluó el preprocesamiento y la ingeniería como parte del espacio de hiperparámetros.
+- Ganador nominal: logística estandarizada + K-means + DBSCAN + XGBoost, AUC 0,945991.
+- Tres variantes del corrector ocupan los primeros puestos; la ventaja sobre la estandarizada sin clusters es 0,000080.
+- No hay IC nuevo, validación temporal ni score externo confirmado.
+- Siguiente paso: bootstrap emparejado, ablación separada K-means/DBSCAN y análisis de costos.
 
-**Tiempo orientativo:** 0.56 minutos
-
-## Diapositiva 19 — PCA: varianza explicada acumulada
-
-**Contexto.** 
-
-**Explicación.**  Se realizó el siguiente análisis: Se proyectaron las variables procesadas sobre componentes principales y se graficó la proporción de varianza retenida.
-
-Se observa lo siguiente: Se evaluó la alternativa que conserva el 90% de varianza; en la comparación OOF no superó a la logística original.
-
-La interpretación debe considerar que Un componente con poca varianza puede seguir teniendo información predictiva; por ello la PCA no fue obligatoria para árboles.
-
-**Conclusión.** Se evaluó la alternativa que conserva el 90% de varianza; en la comparación OOF no superó a la logística original.
-
-**Figura:** 16_pca_explained_variance.png
-
-**Procedimiento:** Se proyectaron las variables procesadas sobre componentes principales y se graficó la proporción de varianza retenida.
-
-**Interpretación:** Se evaluó la alternativa que conserva el 90% de varianza; en la comparación OOF no superó a la logística original.
-
-**Limitación:** Un componente con poca varianza puede seguir teniendo información predictiva; por ello la PCA no fue obligatoria para árboles.
-
-**Tiempo orientativo:** 0.48 minutos
-
-## Diapositiva 20 — Regresión logística: referencia probabilística
-
-**Contexto.** Es un primer clasificador interpretable y eficiente; estima log-odds aditivos y los transforma mediante la sigmoide.
-
-**Explicación.**  
-
-**Conclusión.** No exige normalidad de predictores ni homocedasticidad; sirve como referencia, no como supuesto de que todas las relaciones sean lineales.
-
-**Fórmula:** $$\log\frac{p(x)}{1-p(x)}=\beta_0+\beta^{T}x$$
-
-**Tiempo orientativo:** 0.61 minutos
-
-## Diapositiva 21 — Diagnósticos del modelo logístico
-
-**Contexto.** 
-
-**Explicación.**  Se realizó el siguiente análisis: Se verificó la redundancia entre variables mediante VIF y se examinó el posible cambio de distribución entre conjuntos.
-
-Se observa lo siguiente: No se identificaron correlaciones extremas que por sí solas invalidaran el modelo; el tratamiento de categorías evita redundancia exacta.
-
-La interpretación debe considerar que VIF no certifica independencia, ausencia de separación multivariante o linealidad del logit; se complementó con otros diagnósticos.
-
-**Conclusión.** No se identificaron correlaciones extremas que por sí solas invalidaran el modelo; el tratamiento de categorías evita redundancia exacta.
-
-**Figura:** 17_assumptions_vif_and_feature_shift.png
-
-**Procedimiento:** Se verificó la redundancia entre variables mediante VIF y se examinó el posible cambio de distribución entre conjuntos.
-
-**Interpretación:** No se identificaron correlaciones extremas que por sí solas invalidaran el modelo; el tratamiento de categorías evita redundancia exacta.
-
-**Limitación:** VIF no certifica independencia, ausencia de separación multivariante o linealidad del logit; se complementó con otros diagnósticos.
-
-**Tiempo orientativo:** 0.44 minutos
-
-## Diapositiva 22 — Familias de modelos y qué pueden aprender
-
-**Contexto.** Se compararon 19 configuraciones de cinco líneas de modelado con las mismas particiones externas.
-
-**Explicación.**  
-
-**Conclusión.** La comparación combina capacidad predictiva, estabilidad, interpretación y costo de cómputo.
-
-**Tiempo orientativo:** 0.58 minutos
-
-## Diapositiva 23 — Búsqueda de hiperparámetros con GridSearchCV
-
-**Contexto.** 
-
-**Explicación.**  Se realizó el siguiente análisis: Se exploraron combinaciones de profundidad, tasa de aprendizaje y regularización para XGBoost y CatBoost mediante CV interno.
-
-Se observa lo siguiente: Cada combinación se evaluó con tres folds internos de la parte de entrenamiento y se conservó la mejor configuración.
-
-La interpretación debe considerar que El gráfico muestra parámetros probados; el XGBoost fijo de referencia no debe confundirse con el XGBoost seleccionado por la búsqueda.
-
-**Conclusión.** Cada combinación se evaluó con tres folds internos de la parte de entrenamiento y se conservó la mejor configuración.
-
-**Figura:** 42_gridsearch_full_parameter_space.png
-
-**Procedimiento:** Se exploraron combinaciones de profundidad, tasa de aprendizaje y regularización para XGBoost y CatBoost mediante CV interno.
-
-**Interpretación:** Cada combinación se evaluó con tres folds internos de la parte de entrenamiento y se conservó la mejor configuración.
-
-**Limitación:** El gráfico muestra parámetros probados; el XGBoost fijo de referencia no debe confundirse con el XGBoost seleccionado por la búsqueda.
-
-**Tiempo orientativo:** 0.46 minutos
-
-## Diapositiva 24 — Comparación de candidatos en cinco folds
-
-**Contexto.** 
-
-**Explicación.**  Se realizó el siguiente análisis: Se calcularon ROC AUC OOF para todos los candidatos y se graficó la variación de AUC entre folds estratificados.
-
-Se observa lo siguiente: Los métodos basados en boosting estuvieron entre los mejor posicionados y las diferencias entre candidatos superiores fueron pequeñas.
-
-La interpretación debe considerar que El máximo OOF observado puede ser optimista por selección: conviene revisar dispersión entre folds y validación independiente.
-
-**Conclusión.** Los métodos basados en boosting estuvieron entre los mejor posicionados y las diferencias entre candidatos superiores fueron pequeñas.
-
-**Figura:** 12_candidate_scores_and_folds.png
-
-**Procedimiento:** Se calcularon ROC AUC OOF para todos los candidatos y se graficó la variación de AUC entre folds estratificados.
-
-**Interpretación:** Los métodos basados en boosting estuvieron entre los mejor posicionados y las diferencias entre candidatos superiores fueron pequeñas.
-
-**Limitación:** El máximo OOF observado puede ser optimista por selección: conviene revisar dispersión entre folds y validación independiente.
-
-**Tiempo orientativo:** 0.44 minutos
-
-## Diapositiva 25 — ¿Cuánto difieren las predicciones de los modelos?
-
-**Contexto.** 
-
-**Explicación.**  Se realizó el siguiente análisis: Se calculó la correlación entre los vectores de probabilidades OOF de los distintos candidatos.
-
-Se observa lo siguiente: Una alta correlación sugiere que los modelos clasifican muchas transacciones de forma semejante.
-
-La interpretación debe considerar que Alta correlación de puntajes no implica coincidencia exacta entre los casos de mayor riesgo ni mejora por promediarlos.
-
-**Conclusión.** Una alta correlación sugiere que los modelos clasifican muchas transacciones de forma semejante.
-
-**Figura:** 13_oof_prediction_correlations.png
-
-**Procedimiento:** Se calculó la correlación entre los vectores de probabilidades OOF de los distintos candidatos.
-
-**Interpretación:** Una alta correlación sugiere que los modelos clasifican muchas transacciones de forma semejante.
-
-**Limitación:** Alta correlación de puntajes no implica coincidencia exacta entre los casos de mayor riesgo ni mejora por promediarlos.
-
-**Tiempo orientativo:** 0.40 minutos
-
-## Diapositiva 26 — Desempeño frente a tiempo de entrenamiento
-
-**Contexto.** 
-
-**Explicación.**  Se realizó el siguiente análisis: Se contrastó la calidad predictiva con el tiempo utilizado para entrenar y ajustar las alternativas.
-
-Se observa lo siguiente: Los métodos más complejos no aportan necesariamente una mejora proporcional al costo computacional.
-
-La interpretación debe considerar que Los tiempos dependen del hardware y del dispositivo efectivo de CPU/GPU; no son una comparación universal.
-
-**Conclusión.** Los métodos más complejos no aportan necesariamente una mejora proporcional al costo computacional.
-
-**Figura:** 27_performance_vs_training_time.png
-
-**Procedimiento:** Se contrastó la calidad predictiva con el tiempo utilizado para entrenar y ajustar las alternativas.
-
-**Interpretación:** Los métodos más complejos no aportan necesariamente una mejora proporcional al costo computacional.
-
-**Limitación:** Los tiempos dependen del hardware y del dispositivo efectivo de CPU/GPU; no son una comparación universal.
-
-**Tiempo orientativo:** 0.42 minutos
-
-## Diapositiva 27 — Mejor candidato individual: XGBoost
-
-**Contexto.** La referencia individual con puntuación verificada es XGBoost de profundidad 5 y tasa de aprendizaje 0.05.
-
-**Explicación.**  
-
-**Conclusión.** Se conserva como referencia para juzgar si el costo adicional de un ensamble mejora realmente la discriminación.
-
-**Tiempo orientativo:** 0.47 minutos
-
-## Diapositiva 28 — Cuatro estrategias de ensamble
-
-**Contexto.** Se reutilizaron predicciones OOF y modelos por fold, evitando volver a ejecutar toda la búsqueda inicial.
-
-**Explicación.**  
-
-**Conclusión.** Los cuatro mecanismos son diferentes; su valor se decide comparándolos contra el mejor modelo individual.
-
-**Tiempo orientativo:** 0.68 minutos
-
-## Diapositiva 29 — Primer ensamble: promedio de probabilidades
-
-**Contexto.** 
-
-**Explicación.**  Se realizó el siguiente análisis: Se construyeron mezclas entre modelos individuales y se promediaron probabilidades de modelos seleccionados.
-
-Se observa lo siguiente: El promedio puede reducir variabilidad, pero combinar modelos similares o de calidad desigual no garantiza mejor ROC AUC.
-
-La interpretación debe considerar que El promedio no es bagging clásico: éste entrena múltiples instancias sobre muestras bootstrap y luego promedia.
-
-**Conclusión.** El promedio puede reducir variabilidad, pero combinar modelos similares o de calidad desigual no garantiza mejor ROC AUC.
-
-**Figura:** 14_ensemble_comparisons.png
-
-**Procedimiento:** Se construyeron mezclas entre modelos individuales y se promediaron probabilidades de modelos seleccionados.
-
-**Interpretación:** El promedio puede reducir variabilidad, pero combinar modelos similares o de calidad desigual no garantiza mejor ROC AUC.
-
-**Limitación:** El promedio no es bagging clásico: éste entrena múltiples instancias sobre muestras bootstrap y luego promedia.
-
-**Tiempo orientativo:** 0.40 minutos
-
-## Diapositiva 30 — Segundo ensamble: corregir el logit con XGBoost
-
-**Contexto.** XGBoost utiliza el puntaje inicial de la regresión logística como base y optimiza la pérdida logística.
-
-**Explicación.**  
-
-**Conclusión.** Se corrige en escala de log-odds y la sigmoide garantiza una probabilidad final entre 0 y 1.
-
-**Fórmula:** $$\hat p(x)=\sigma\!\left(f_{\mathrm{LR}}(x)+g_{\mathrm{XGB}}(x)\right)$$
-
-**Tiempo orientativo:** 0.60 minutos
-
-## Diapositiva 31 — Tercer ensamble: aprender residuos explícitos
-
-**Contexto.** Esta alternativa implementa literalmente la idea de usar los errores de la regresión logística como nueva respuesta.
-
-**Explicación.**  
-
-**Conclusión.** Aprender residuos de probabilidad con pérdida cuadrática no equivale a corregir logits con pérdida logística.
-
-**Fórmula:** $$r_i=y_i-\hat p_{\mathrm{LR}}(x_i)$$
-
-**Tiempo orientativo:** 0.54 minutos
-
-## Diapositiva 32 — Cuarto ensamble: stacking con random forest
-
-**Contexto.** Un segundo clasificador recibe como predictores las probabilidades que generan los modelos base.
-
-**Explicación.**  
-
-**Conclusión.** El bosque aprende cómo combinar predicciones; no recibe los 24 predictores originales.
-
-**Fórmula:** $$z_i=\left(\hat p_1(x_i),\ldots,\hat p_{17}(x_i)\right)$$
-
-**Tiempo orientativo:** 0.60 minutos
-
-## Diapositiva 33 — Comparación final: modelo individual y ensambles
-
-**Contexto.** 
-
-**Explicación.**  Se realizó el siguiente análisis: Se calcularon las mismas métricas OOF para el mejor individual y los cuatro ensambles, sobre las mismas transacciones.
-
-Se observa lo siguiente: AUC: offset 0.946205; XGBoost 0.946120; stacking 0.945747; promedio 0.943280; residuos 0.940241.
-
-La interpretación debe considerar que La ventaja del primer método es de 0.000085 sobre el individual; no debe confundirse orden observado con mejora demostrada.
-
-**Conclusión.** AUC: offset 0.946205; XGBoost 0.946120; stacking 0.945747; promedio 0.943280; residuos 0.940241.
-
-**Figura:** 44_resumen_ensambles_es.png
-
-**Procedimiento:** Se calcularon las mismas métricas OOF para el mejor individual y los cuatro ensambles, sobre las mismas transacciones.
-
-**Interpretación:** AUC: offset 0.946205; XGBoost 0.946120; stacking 0.945747; promedio 0.943280; residuos 0.940241.
-
-**Limitación:** La ventaja del primer método es de 0.000085 sobre el individual; no debe confundirse orden observado con mejora demostrada.
-
-**Tiempo orientativo:** 0.50 minutos
-
-## Diapositiva 34 — ROC AUC, precisión promedio y calibración
-
-**Contexto.** 
-
-**Explicación.**  Se realizó el siguiente análisis: Se complementó el ordenamiento por ROC AUC con precisión promedio, pérdida logística y error de Brier.
-
-Se observa lo siguiente: El offset también obtuvo AP 0.507424; el stacking fue cercano en AP y Brier, aunque inferior en ROC AUC.
-
-La interpretación debe considerar que ROC AUC mide ranking; log loss y Brier penalizan probabilidades mal ajustadas. Ninguna métrica resume todo el comportamiento.
-
-**Conclusión.** El offset también obtuvo AP 0.507424; el stacking fue cercano en AP y Brier, aunque inferior en ROC AUC.
-
-**Figura:** 46_01_five_way_metric_scorecard.png
-
-**Procedimiento:** Se complementó el ordenamiento por ROC AUC con precisión promedio, pérdida logística y error de Brier.
-
-**Interpretación:** El offset también obtuvo AP 0.507424; el stacking fue cercano en AP y Brier, aunque inferior en ROC AUC.
-
-**Limitación:** ROC AUC mide ranking; log loss y Brier penalizan probabilidades mal ajustadas. Ninguna métrica resume todo el comportamiento.
-
-**Tiempo orientativo:** 0.42 minutos
-
-## Diapositiva 35 — Bootstrap emparejado: magnitud de la diferencia
-
-**Contexto.** 
-
-**Explicación.**  Se realizó el siguiente análisis: Se remuestrearon las mismas transacciones por clase en 600 réplicas; se calculó en cada una la diferencia de AUC.
-
-Se observa lo siguiente: Offset menos XGBoost fijo: +0.000085; intervalo percentil del 95% [−0.000263, +0.000440], que incluye cero.
-
-La interpretación debe considerar que El intervalo es exploratorio: selección OOF previa, posible dependencia entre operaciones y falta de prueba externa.
-
-**Conclusión.** Offset menos XGBoost fijo: +0.000085; intervalo percentil del 95% [−0.000263, +0.000440], que incluye cero.
-
-**Figura:** 50_bootstrap_pareado_auc.png
-
-**Procedimiento:** Se remuestrearon las mismas transacciones por clase en 600 réplicas; se calculó en cada una la diferencia de AUC.
-
-**Interpretación:** Offset menos XGBoost fijo: +0.000085; intervalo percentil del 95% [−0.000263, +0.000440], que incluye cero.
-
-**Limitación:** El intervalo es exploratorio: selección OOF previa, posible dependencia entre operaciones y falta de prueba externa.
-
-**Tiempo orientativo:** 0.66 minutos
-
-## Diapositiva 36 — Conclusión: selección observada y alcance de la evidencia
-
-**Contexto.** La decisión de producción del notebook fue escoger la mayor ROC AUC OOF, pero debemos separar la regla de selección de su evidencia estadística.
-
-**Explicación.**  
-
-**Conclusión.** El experimento justifica mantener ambas alternativas; la mayor AUC observada no es prueba suficiente de superioridad fuera de muestra.
-
-**Tiempo orientativo:** 0.60 minutos
+**Selección reproducible; superioridad estadística aún no demostrada.**

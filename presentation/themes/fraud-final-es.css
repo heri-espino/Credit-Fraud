@@ -1,0 +1,11 @@
+/* @theme fraud-final-es */
+@import 'default';
+:root{--navy:#17354b;--blue:#315f91;--orange:#b25d35;--green:#3b755a;--grid:#d8e0e8;--ink:#202c37;}
+section{background:#fff;color:var(--ink);font-family:Arial,'DejaVu Sans',sans-serif;padding:34px 52px;font-size:27px;justify-content:flex-start;}
+h1,h2{color:var(--navy);font-weight:700;letter-spacing:-.035em;}h1{font-size:2.12em;line-height:1.1;margin:28px 0 22px;max-width:95%;}h2{font-size:1.37em;line-height:1.13;margin:12px 0 16px;}
+.eyebrow{font-size:.52em;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--blue);padding-bottom:8px;border-bottom:1px solid var(--grid);}
+p,li{font-size:.83em;line-height:1.38;}li{margin:8px 0;}li p{font-size:1em;}.cover{justify-content:center;}.takeaway{border-top:1px solid var(--grid);padding-top:14px;margin-top:34px;font-size:.75em;font-weight:600;color:var(--navy);}
+.figure-layout{display:grid;grid-template-columns:minmax(0,70%) minmax(0,30%);height:490px;align-items:center;}.plot-panel{height:100%;min-width:0;padding-right:18px;display:flex;align-items:center;justify-content:center;}.plot-panel img{width:100%;height:100%;object-fit:contain;}.explanation{border-left:1px solid var(--grid);padding-left:18px;font-size:19px;line-height:1.35;}.explanation h3{font-size:15px;color:var(--blue);margin:12px 0 4px;letter-spacing:.06em;}.explanation p{font-size:18px;margin:0 0 13px;}.explanation h3:nth-of-type(2){color:var(--orange)}.explanation h3:nth-of-type(3){color:var(--green)}
+.wide{height:530px;display:flex;align-items:center;justify-content:center;}.wide img{width:100%;height:100%;object-fit:contain;}
+table{display:table;width:100%;border-collapse:collapse;font-size:.72em;margin:14px 0 12px;}table th,table td{border:0;border-bottom:1px solid var(--grid);padding:9px 12px;}table th{background:#e9eff5;color:var(--navy);}table.compact{font-size:.64em;}table.compact td,table.compact th{padding:6px 10px;}tr.winner td{font-weight:700;background:#eaf1f8;}.footnote{font-size:.56em;color:#536476;}.bigstat{font-size:2.0em;color:var(--navy);font-weight:700;}.bigstat span{font-size:.38em;font-weight:400;}
+mjx-container[display="true"],.MathJax_Display,.katex-display{font-size:.76em!important;margin:8px 0!important;}footer{font-size:12px;color:#667789;}

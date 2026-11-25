@@ -1,18 +1,22 @@
-# Presentation sources (current)
+# Presentaciones Marp actuales · experiment024
 
-- `presentacion_corta/deck.md`: **Spanish v11** — 36 slides, approximately 18.1 minutes, 21 figure placements. EDA, PCA, probability prediction, 19 candidate models and four ensemble strategies, paired bootstrap.
-- `presentacion_completa/deck.md`: **Spanish v10** — 93 slides, 51 figures, including detailed model assumptions and OOF evaluation.
-- `themes/fraud-whitegrid.css`: minimal Seaborn `whitegrid` look with formulas sized near body text.
+- [Corta](presentacion_corta/deck.md): 42 diapositivas.
+- [Completa](presentacion_completa/deck.md): 53 diapositivas, 27 figuras más diagrama del pipeline.
 
-## Build on Windows
+Orden: problema y datos → EDA → preprocesamiento → geometría y clusters → diseño factorial → validación y grillas → ensambles → top 10 → ROC/PR/calibración → umbrales → conclusiones. Guiones actualizados, tema fraud-final-es, formato 16:9. Fuentes anteriores en archive/pre_experiment026.
+
+## Compilar sin reentrenar
+
+Desde la raíz, con Python, Node.js y navegador:
 
 ```powershell
-# Run from repo root on a machine with Node.js and Chrome/Chromium installed.
-.\presentation\build_slides.ps1 -FiguresDirectory 'C:\path\to\Credit-Fraud\outputs'
+.\presentation\build_slides.ps1
 ```
 
-The source may reference original generated images in `outputs/figures/`, `outputs/ensemble_extension/figures/` and `outputs/bootstrap_comparison/`. These folders are ignored and normally exist only on your workstation. The script first tries the versioned PNGs in `experiments/`, then copies PNGs from the supplied local directory, checks every image reference, and runs the **official Marp CLI** to build HTML/PDF in `presentation/dist/`. It never retrains any model.
+Las 27 figuras inline del notebook ejecutado se versionan en experiments/experiment026/resultados/figuras, por lo que no se requiere el informe ZIP para compilar. Para recuperar los PNG de mayor resolución del ZIP y sus tablas agregadas:
 
-Alternatively use GitHub **Actions → Verify project / build slides → Run workflow**, enable `build_presentations`, and provide the local absolute `outputs/` path visible to the self-hosted runner. The workflow generates a downloadable artifact and does not commit PDFs or touch the previous model outputs.
+```powershell
+.\presentation\build_slides.ps1 -FiguresDirectory "C:\ruta\informe_experiment024_es.zip"
+```
 
-Earlier HTML/PDF in `presentation/archive/` are historical, not exports of the current sources. The v11 short and v10 long decks were previously exported with an offline renderer; the new workflow uses Marp CLI and may render typography differently. Existing figure labels inside PNGs remain in English by design.
+También se acepta el directorio del informe, outputs/ o el ZIP depurado. El importador verifica firma y top10 exacto y copia sólo PNG y agregados; nunca el envío Kaggle. HTML/PDF oficiales en presentation/dist. No se han compilado aquí. build_presentaciones_es.py es un generador histórico: no usar para regenerar las fuentes nuevas.

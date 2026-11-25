@@ -1,3 +1,3 @@
-# Presentación corta (versión 11)
+# Presentación corta · experiment024
 
-36 diapositivas en español. Fuente actual: `deck.md`. EDA, diccionario de variables, PCA/SVD, modelos, selección OOF y bootstrap emparejado. El HTML y PDF se generan con `../build_slides.ps1` o con el workflow manual del runner. Los archivos compilados anteriores están en `../archive/v7/` para no confundirlos con esta versión.
+42 diapositivas. Fuente deck.md y guion_del_presentador.md. Compilación: [README](../README.md).

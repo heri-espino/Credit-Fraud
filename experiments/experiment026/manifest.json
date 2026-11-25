@@ -1,0 +1,50 @@
+{
+  "protocolo": "experiment024",
+  "firma": "c9bfae19f0b3275192b44a04c05da9f393856b7f05e4d60d8d56923aa060f67c",
+  "fuente": "informe_experiment024_es.zip",
+  "figuras": [
+    "01_desbalance_y_faltantes.png",
+    "02_distribuciones_numericas.png",
+    "03_correlacion_spearman.png",
+    "04_fraude_por_categorias.png",
+    "05_tasas_por_cuantiles.png",
+    "06_interacciones_quintiles.png",
+    "07_variacion_temporal.png",
+    "08_extremos_univariados.png",
+    "09_anomalias_isolation_forest.png",
+    "10_desplazamiento_entrenamiento_prueba.png",
+    "11_pca_90_varianza.png",
+    "11b_tsne.png",
+    "12_diagnostico_clusters.png",
+    "13_grilla_0.png",
+    "13_grilla_1.png",
+    "13_grilla_2.png",
+    "13_grilla_3.png",
+    "14_grilla_ensamble_0.png",
+    "14_grilla_ensamble_1.png",
+    "comparacion_final_top10.png",
+    "15_curvas_roc_y_precision_exhaustividad.png",
+    "16_calibracion_oof.png",
+    "23_metricas_f1_precision_recall_accuracy.png",
+    "24_f1_precision_recall_vs_umbral.png",
+    "21_matriz_confusion_umbral.png",
+    "22_compromiso_errores_operativos.png",
+    "25_f1_y_alertas_por_modelo.png"
+  ],
+  "agregados": [
+    "catalogo_figuras.csv",
+    "top10.csv",
+    "resumen_final.json",
+    "metricas_alerta.csv",
+    "metricas_alerta_cruzadas.csv"
+  ],
+  "excluidos": [
+    "envio_final_kaggle.csv"
+  ],
+  "n_corta": 42,
+  "n_completa": 53,
+  "figuras_versionadas": {
+    "fuente": "Salidas image/png del notebook ejecutado, commit 4d764657177b13204689675541dd196d74296ba0",
+    "nota": "Misma corrida y figuras; PNG de visualización inline a menor resolución que los PNG exportados del ZIP. El importador puede sustituirlos por las exportaciones originales."
+  }
+}
