@@ -1,10 +1,10 @@
-# Reproducción del cuaderno final — experiment023
+# Reproducción del cuaderno final — experiment024 acelerado
 
 ```powershell
 git pull --ff-only origin main
 conda activate lds1071-fraud
-python experiments/experiment023/smoke_test.py
+nvidia-smi
+python experiments/experiment024/smoke_test.py
 jupyter lab notebook_final_es.ipynb
 ```
-
-Reiniciar el kernel y ejecutar todo. Única opción de ejecución: REANUDAR=True (predeterminada) recupera checkpoints compatibles; False vuelve a entrenar. No se mezclan resultados históricos. Cuatro representaciones para todos los modelos, 40 candidatos nominales, top 10 por AUC OOF. Los archivos privados se guardan en outputs/experiment023; informe en outputs/informe_experiment023_es. La corrida completa y smoke aún deben ejecutarse. Véase [experiment023](experiments/experiment023/README.md).
+Reiniciar kernel y ejecutar todo. Por defecto GPU auto y CPU_JOBS=-1, GRID_JOBS=4. Un ajuste GPU a la vez. Para exigir GPU, DISPOSITIVO_XGB='cuda', DISPOSITIVO_CATBOOST='GPU'. CPU fallback solo durante la prueba inicial. Si RAM saturada, GRID_JOBS=2/1. Si VRAM insuficiente, cambiar dispositivo en una corrida nueva (no mezclar cachés). REANUDAR=True recupera grillas y folds compatibles en outputs/experiment024. Los checkpoints previos de experiment023 permanecen intactos pero no se reutilizan automáticamente. El informe sale en outputs/informe_experiment024_es. Ver [experiment024](experiments/experiment024/README.md).

@@ -93,3 +93,8 @@ Objetivo: separar el efecto del escalado y el de las características K-means + 
 
 
 Reproducción, checkpoints, limitaciones y estado en `experiments/experiment023/README.md`. El notebook final usa experiment023; código y smoke preparados, no ejecutados en la sesión de edición. No publicar datos ni vectores privados. Próximo experiment024.
+
+
+## experiment024 — Aceleración GPU/CPU y reutilización de ajustes
+
+Mismo diseño factorial que experiment023, grillas y folds conservados. XGB CUDA y CatBoost GPU con pruebas reales y CPU fallback solo en preflight; CPU_JOBS=-1 y GRID_JOBS=4, presupuesto de hilos dividido, un ajuste GPU a la vez. Matrices y bases de stacking compartidas entre escenarios, offset/bagging adaptativo reutiliza el escenario fijo equivalente. Checkpoints por lote de grilla y por fold/escenario, firma de código, datos, hardware y versiones; outputs nuevos experiment024. No mezclar cachés CPU/GPU o exp023 automáticamente. GPU puede cambiar resultados numéricos, no prometer speedup sin benchmark. Smoke sintético preparado, no ejecutado aquí; no nuevas métricas. Ver `experiments/experiment024/README.md`. Próximo experiment025.
